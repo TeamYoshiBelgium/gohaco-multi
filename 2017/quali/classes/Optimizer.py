@@ -1,16 +1,22 @@
 import copy
 import random
+import sys
 
 from heapq import *
 from tqdm import tqdm
 
 
 class Optimizer:
-    def __init__(self):
+    def __init__(self, filename,  serverLimit, videoLimit, iterationAddCount):
         self.videos = []
         self.servers = []
         self.endpoints = []
         self.requests = []
+
+        self.filename = filename
+        self.serverLimit = serverLimit
+        self.videoLimit = videoLimit
+        self.iterationAddCount = iterationAddCount
 
     def init(self, Loader, products, warehouses, orders):
         # self.products = products
@@ -26,36 +32,69 @@ class Optimizer:
     def optimize(self):
         print("[OPT] Starting optimization", flush=True)
 
-        limit = 200
+        serverLimit = self.serverLimit
+        videoLimit = self.videoLimit
+        iterationAddCount = self.iterationAddCount
+        fullVideos = False
+
+        totalServerFill = 0
+        maxFill = len(self.servers) * self.servers[0].maxSize
+
         videos = copy.copy(self.videos)
 
         while True:
             heap = []
-            keep = []
+            remove = []
 
-            for video in tqdm(videos):
-                (score, server) = video.findBestServer(len(self.servers))
+            if fullVideos is False:
+                for video in videos[:videoLimit]:
+                    (score, server) = video.findBestServer(serverLimit)
 
-                if (server is not None):
-                    heappush(heap, (-score/video.size, server, video))
-                    keep.append(video)
+                    if (server is not None):
+                        heappush(heap, (-score/video.size, server, video))
+                    else:
+                        remove.append(video)
+
+                if len(heap) == 0:
+                    iterationAddCount = max(int(iterationAddCount / 2), 1)
+                    fullVideos = False
+
+            if fullVideos is True:
+                for video in videos:
+                    (score, server) = video.findBestServer(serverLimit)
+
+                    if (server is not None):
+                        heappush(heap, (-score/video.size, server, video))
+                    else:
+                        remove.append(video)
 
             if len(heap) == 0:
                 break
 
-            for i in range(len(heap)):
+            added=0
+            L = len(heap)
+            for x in heap[:max(1,min(int(L/10), iterationAddCount))]:
                 (score, server, video) = heappop(heap)
-
                 try:
                     server.addVideo(video)
                     video.addServer(server)
-                    print(score, video, server)
+                    print(score, video, server, flush=True)
+                    added += 1
+                    totalServerFill += video.size
                 except:
+                    print("FAIL", score, video, server, flush=True)
+                    # print(sys.exc_info())
+                    # exit()
                     pass
+            print(self.filename)
+            print("Added %d/%d heap(%d)" % (added, max(1,min(int(L/10), iterationAddCount)), L))
+            print("Total fill: %d/%d   (%.2f%%)" % (totalServerFill, maxFill, totalServerFill/maxFill*100))
+            print("=================================", flush=True)
 
-            print("=================================")
+            # for video in remove:
+            #     videos.remove(video)
 
-            videos = keep
+            random.shuffle(videos)
 
 
             # keep = copy.copy(videos)

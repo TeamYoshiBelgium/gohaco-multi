@@ -18,11 +18,11 @@ def main():
     if (len(sys.argv) > 1):
         L = Loader(sys.argv[1])
     else:
-        # L = Loader("in/kittens.in") # 10k vids, 200k reqs, 1000 ep's, 500 srvrs
-        # L = Loader("in/example.in")
-        L = Loader("in/me_at_the_zoo.in") # 100 vids, 100 reqs, 10 ep's, 10 srvrs
-        # L = Loader("in/videos_worth_spreading.in") # 10k vids, 100k reqs, 100 ep's, 100 srvrs
-        # L = Loader("in/trending_today.in") # 10k vids, 100k reqs, 100 ep's, 100 srvrs
+        # L = Loader("in/kittens.in", 10, 2000, 100)  # 10k vids, 200k reqs, 1000 ep's, 500 srvrs0
+        L = Loader("in/example.in", 100,100,1)
+        # L = Loader("in/me_at_the_zoo.in", 10, 100, 1) # 100 vids, 100 reqs, 10 ep's, 10 srvrs
+        # L = Loader("in/videos_worth_spreading.in", 100, 2000, 20) # 10k vids, 100k reqs, 100 ep's, 100 srvrs
+        # L = Loader("in/trending_today.in", 100, 2000, 30) # 10k vids, 100k reqs, 100 ep's, 100 srvrs
 
     L.O.optimize()
     # D = Drawer(L.O)

@@ -19,7 +19,7 @@ class Server:
     def addVideo(self, video):
         self.fill += video.size
         if (self.fill > self.maxSize):
-            raise "Overfilled server! " + self + " by adding " + video
+            raise Exception("Overfilled server! " + str(self) + " by adding " + str(video))
 
         self.videos.add(video)
 
@@ -28,7 +28,7 @@ class Server:
 
     def getScore(self, video):
         if video in self.videos:
-            raise "Video already in this server"
+            raise Exception("Video already in this server")
 
         totalScore = 0
         for endpoint in self.endpoints:
@@ -44,5 +44,5 @@ class Server:
         return str(self)
 
     def __str__(self):
-        return "SERV%03s()" % (self.No)
+        return "SERV%03s(%-03s/%03s)" % (self.No, self.fill, self.maxSize)
 

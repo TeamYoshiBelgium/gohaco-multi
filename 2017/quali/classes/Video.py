@@ -17,7 +17,9 @@ class Video:
         bestServer = None
         bestScore = 0
         random.shuffle(self.O.servers)
-        for server in self.O.servers[:limit]:
+        serversChecked  = 0
+
+        for server in self.O.servers:
             if server in self.cachedServers:
                 continue
             if server.fill + self.size > server.maxSize:
@@ -27,6 +29,11 @@ class Video:
             if (score > bestScore):
                 bestScore = score
                 bestServer = server
+
+            serversChecked +=1
+
+            if serversChecked >= limit:
+                break
 
         return (bestScore, bestServer)
 

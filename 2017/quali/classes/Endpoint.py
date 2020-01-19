@@ -34,7 +34,7 @@ class Endpoint:
 
         if (video in self.videosLatencyMap):
             if (self.videosLatencyMap[video] > self.cacheServers[server]):
-                for request in self.videosRequestsMap:
+                for request in self.videosRequestsMap[video]:
                     request.saved += self.videosLatencyMap[video] - self.cacheServers[server]
 
                 self.videosLatencyMap[video] = self.cacheServers[server]

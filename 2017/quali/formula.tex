@@ -1,0 +1,11 @@
+S= \frac{\sum_{r=1}^{R}[
+    Q_r \cdot (
+        L_{D,r} - \min(L_{C_1},L_{C_2}, ..., L_{C_n})
+    )
+]}{\sum_{r=1}^{R}(Q_r)} \cdot 1000 \\
+\\
+\text{where} \\
+\quad R = \text{number of requests} \\
+\quad Q_r = \text{quantity of request r} \\
+\quad L_{D,r} = \text{latency to datacenter of the endpoint associated with request r} \\
+\quad L_{C_i} = \text{latency of cache that contains video or request r, to endpoint associated with request r} \\

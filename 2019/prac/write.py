@@ -1,4 +1,8 @@
+import os
+
 def write_solution(pizzas, filename):
+    if not os.path.isdir("output"):
+        os.mkdir("output")
     f = open("output/" + filename + ".out", "w")
     f.write(str(len(pizzas)))
     f.write("\n")

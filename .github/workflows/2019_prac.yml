@@ -1,6 +1,9 @@
 name: 2019 Practice Problem
 
-on: [push]
+on:
+  push:
+    paths:
+    - './2019/prac/**'
 
 jobs:
   build:

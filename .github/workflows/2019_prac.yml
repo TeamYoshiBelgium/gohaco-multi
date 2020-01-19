@@ -1,4 +1,4 @@
-name: Python application
+name: 2019 Practice Problem
 
 on: [push]
 
@@ -19,11 +19,12 @@ jobs:
         pip install -r requirements.txt
     - name: Run solver
       run: |
-        python ./2019/prac/main.py -a
+        cd ./2019/prac/
+        python main.py -a
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
         # Artifact name
         name: "2019-prac-output"
         # Directory containing files to upload
-        path: "./2019/prac/output"
+        path: "./output"

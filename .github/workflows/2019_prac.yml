@@ -27,4 +27,4 @@ jobs:
         # Artifact name
         name: "2019-prac-output"
         # Directory containing files to upload
-        path: "./output"
+        path: "./2019/prac/output"

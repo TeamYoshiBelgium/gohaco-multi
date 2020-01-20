@@ -10,10 +10,10 @@ from .Optimizer import Optimizer
 
 
 class Loader:
-    def __init__(self, filename, serverLimit, videoLimit, iterationAddCount):
+    def __init__(self, filename, videoLimit, iterationAddCount):
         self.filename = filename
         with open(filename) as file:
-            self.O = Optimizer(filename, serverLimit, videoLimit, iterationAddCount)
+            self.O = Optimizer(filename, videoLimit, iterationAddCount)
             self.file = file
 
             self.readHeaderLine()

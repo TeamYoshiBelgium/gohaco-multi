@@ -26,6 +26,8 @@ class Server:
         for endpoint in self.endpoints:
             endpoint.addVideo(self, video)
 
+        video.addServer(self)
+
     def getScore(self, video):
         if video in self.videos:
             raise Exception("Video already in this server")

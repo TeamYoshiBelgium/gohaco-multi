@@ -23,5 +23,5 @@ class Request:
         return str(self)
 
     def __str__(self):
-        return "REQ%03s()" % (self.No)
+        return "REQ%03s(%s, %s)" % (self.No, self.video, self.endpoint)
 

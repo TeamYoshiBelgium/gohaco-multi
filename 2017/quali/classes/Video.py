@@ -1,4 +1,5 @@
 import random
+from heapq import *
 
 class Video:
     CNTR = 0
@@ -7,38 +8,53 @@ class Video:
         self.O = Optimizer
         self.No = Video.CNTR
         self.size = size
-        self.endpoints = []
+        self.endpoints = set()
+        self.servers = set()
 
         Video.CNTR += 1
 
         self.cachedServers = set()
+        self.orderedServers = []
 
-    def findBestServer(self, limit):
-        bestServer = None
-        bestScore = 0
-        random.shuffle(self.O.servers)
-        serversChecked  = 0
+    def findBestServer(self):
+        for pair in self.orderedServers:
+            server = pair[1]
 
-        for server in self.O.servers:
+            if server in self.cachedServers:
+                raise Exception("Wut, server should not be in ordered if cached... %s %s %s %s" % (self, server, self.cachedServers, self.servers))
+
+            if server.fill + self.size > server.maxSize:
+                continue
+
+            return (pair[0], server)
+
+        return (None, None)
+
+
+    def calcBestServers(self):
+        self.orderedServers = []
+        heap = []
+        for server in self.servers:
             if server in self.cachedServers:
                 continue
             if server.fill + self.size > server.maxSize:
                 continue
 
             score = server.getScore(self)
-            if (score > bestScore):
-                bestScore = score
-                bestServer = server
+            heappush(heap, (-score, server))
 
-            serversChecked +=1
+        if (len(heap) == 0):
+            # print("%s FINISHED" % self)
+            self.O.videos.remove(self)
+            self.orderedServers = []
+        else:
+            for pair in heap:
+                self.orderedServers.append((-pair[0], pair[1]))
 
-            if serversChecked >= limit:
-                break
-
-        return (bestScore, bestServer)
 
     def addServer(self, server):
         self.cachedServers.add(server)
+        self.calcBestServers()
 
     def __gt__(self, other):
         return self.No > other.No

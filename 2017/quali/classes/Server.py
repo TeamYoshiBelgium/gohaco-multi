@@ -34,7 +34,10 @@ class Server:
 
         totalScore = 0
         for endpoint in self.endpoints:
-            totalScore += endpoint.getSavableLatency(self, video)
+            save = endpoint.getSavableLatency(self, video)
+            totalScore += save
+            if save > 0:
+                totalScore *= 1.03
 
         return totalScore
 

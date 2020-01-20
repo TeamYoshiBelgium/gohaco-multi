@@ -8,14 +8,13 @@ from tqdm import tqdm
 
 
 class Optimizer:
-    def __init__(self, filename,  videoLimit, iterationAddCount):
+    def __init__(self, filename,  iterationAddCount):
         self.videos = []
         self.servers = []
         self.endpoints = []
         self.requests = []
 
         self.filename = filename
-        self.videoLimit = videoLimit
         self.iterationAddCount = iterationAddCount
 
     def init(self):
@@ -36,16 +35,16 @@ class Optimizer:
                 for server in endpoint.cacheServers:
                     video.servers.add(server)
 
-        for video in tqdm(self.videos):
+        vids = copy.copy(self.videos)
+        for video in tqdm(vids):
             video.calcBestServers()
 
     def optimize(self):
         self.init()
         print("[OPT] Starting optimization", flush=True)
 
-        videoLimit = self.videoLimit
         iterationAddCount = self.iterationAddCount
-        print(videoLimit, iterationAddCount)
+        print(iterationAddCount)
         fullVideos = False
 
         totalServerFill = 0
@@ -60,11 +59,11 @@ class Optimizer:
             remove = []
 
             if fullVideos is False:
-                for video in videos[:videoLimit]:
+                for video in videos:
                     (score, server) = video.findBestServer()
 
                     if (server is not None):
-                        heappush(heap, (-score/video.size, server, video))
+                        heappush(heap, (-score/(video.size), server, video))
                     else:
                         remove.append(video)
 
@@ -86,7 +85,8 @@ class Optimizer:
 
             added=0
             L = len(heap)
-            for x in heap[:max(1,min(int(L/10), iterationAddCount))]:
+
+            for x in heap[:iterationAddCount]:
                 (score, server, video) = heappop(heap)
                 try:
                     server.addVideo(video)
@@ -107,7 +107,7 @@ class Optimizer:
             # for video in remove:
             #     videos.remove(video)
 
-            random.shuffle(videos)
+            # random.shuffle(videos)
 
 
             # keep = copy.copy(videos)

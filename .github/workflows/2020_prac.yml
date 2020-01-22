@@ -1,9 +1,9 @@
-name: 2019 Practice Problem
+name: 2020 Practice Problem
 
 on:
   push:
     paths:
-    - './2019/prac/**'
+    - './2020/prac/**'
 
 jobs:
   build:
@@ -28,6 +28,6 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         # Artifact name
-        name: "2019-prac-output"
+        name: "2020-prac-output"
         # Directory containing files to upload
-        path: "./2019/prac/output"
+        path: "./2020/prac/output"

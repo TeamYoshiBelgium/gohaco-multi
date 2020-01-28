@@ -5,11 +5,11 @@ class Photo:
         self.tags = set(tags)
 
     def __str__(self):
-        string = "id: %i orientation: %i tags: %s\n" % (self.id, self.orientation, str(self.tags))
+        string = "id: %i orientation: %s tags: %s\n" % (self.id, self.orientation, str(self.tags))
         return string
         
     def __repr__(self):
-        string = "id: %i orientation: %i tags: %s" % (self.id, self.orientation, str(self.tags))
+        string = "id: %i orientation: %s tags: %s" % (self.id, self.orientation, str(self.tags))
         return string
 
 class Slide:
@@ -20,6 +20,8 @@ class Slide:
         for photo in photos:
             for tag in photo.tags:
                 self.tags.add(tag)
+
+        self.tags_count = len(self.tags)
 
     def get_score(self, other):
         intersection = len(self.tags.intersection(other.tags))

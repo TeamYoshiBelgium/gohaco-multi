@@ -4,16 +4,16 @@ import time
 
 from read import read_input
 from write import write_solution
-from solver import find_solution
+from solver import find_solution, find_solution_2
 from helpers import calculate_score, score_max
 
 
 def run(input_file):
     filename = os.path.basename(input_file).split(".")[0]
-    photos = read_input(input_file)
+    photos, photos_dict = read_input(input_file)
     # print(hub)
     start_time = time.time()
-    slideshow = find_solution(photos)
+    slideshow = find_solution_2(photos_dict)
     print("--- %s seconds ---" % (time.time() - start_time))
 
     score = calculate_score(slideshow)

@@ -50,7 +50,7 @@ class Library:
             useless = 0.1
 
         # TODO investigate average rate?
-        return sum(sortedBooks) * (realDays / (useless + self.signup))
+        return sum(sortedBooks) / (useless + self.signup)
 
     def get_book_score(self):
         book_scores = 0

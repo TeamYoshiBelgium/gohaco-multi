@@ -14,17 +14,23 @@ class Optimizer:
         pass
 
     def preprocess(self):
-        pass
+        for book in tqdm(self.books):
+            book.calc_library_scores()
         # print(self.orders[1], self.orders[1].orders[:20])
 
     def optimize(self):
         self.preprocess()
+
+        # for book in self.books:
+        #     print(book.libraries)
+        # exit
 
         orderedBooks = sorted(
             self.books,
             reverse=True,
             key=lambda x: x.calc_score()
         )
+
 
         for book in tqdm(orderedBooks):
             if book.done:
@@ -46,7 +52,7 @@ class Optimizer:
                 self.used_libraries.append(bestLibrary)
                 self.T += bestLibrary.signup
 
-                print("Library", bestLibrary, "chosen")
+                print("Library", bestLibrary, "chosen with score", bestScore)
 
 
 

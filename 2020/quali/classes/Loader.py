@@ -5,7 +5,7 @@ class Loader:
     def __init__(self, filename):
         self.filename = filename
         with open(filename) as file:
-            self.O = Optimizer()
+           # self.O = Optimizer()
 
             self.readHeaderLine(file)
             self.readBooks(file)
@@ -32,7 +32,9 @@ class Loader:
     def readLibraries(self, file):
         self.libraries = []
         id = 0
-        for row in file.readline():
+
+        for id in  range(self.librariees):
+            row = file.readline()
             splitted = row.split(" ")
             books_count = int(splitted[0])
             signup_time = int(splitted[1])

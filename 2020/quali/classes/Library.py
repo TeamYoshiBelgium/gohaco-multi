@@ -27,7 +27,7 @@ class Library:
         Library.CNTR += 1
 
     def get_score(self):
-        if self.signup + self.O.T > self.O.max:
+        if self.signup + self.O.T >= self.O.max:
             return -1
 
         filteredBooks = list(filter(

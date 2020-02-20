@@ -38,7 +38,7 @@ class Optimizer:
                     heappush(bestLibraries, (-score, library))
 
             for tup in bestLibraries[:1]:
-                print("Adding", tup)
+                # print("Adding", tup)
                 library = tup[1]
 
                 library.finish()

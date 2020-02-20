@@ -43,7 +43,7 @@ class Library:
             reverse=True
         ))
 
-        realDays = math.ceil(len(sortedBooks) / self.rate)
+        realDays = math.ceil(len(sortedBooks) * 1.0 / self.rate)
         useless = self.O.max - self.O.T - self.signup - realDays
 
         # TODO investigate average rate?
@@ -83,8 +83,8 @@ class Library:
 
         self.scanned_books = sortedBooks
 
-        days_needed = self.signup 
-        return 0
+        days_needed = self.signup + math.ceil(len(sortedBooks) * 1.0 / self.rate)
+        return days_needed
 
     def __str__(self):
         return "LIB%s(R:%s, S:%s)" % (self.No, self.rate, self.signup)

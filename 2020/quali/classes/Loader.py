@@ -1,17 +1,20 @@
 from .Optimizer import Optimizer
-
+from .Library import Library
 
 class Loader:
     def __init__(self, filename):
         self.filename = filename
         with open(filename) as file:
-            self.O = Optimizer()
+            self.O = 1
+            # self.O = Optimizer()
 
             self.readHeaderLine(file)
             self.readBooks(file)
             self.readLibraries(file)
 
-            self.O.optimize()
+            for library in self.libraries:
+                print(len(library.books))
+#            self.O.optimize()
 
     def readHeaderLine(self, file):
         row = file.readline().split(" ")
@@ -32,7 +35,9 @@ class Loader:
     def readLibraries(self, file):
         self.libraries = []
         id = 0
-        for row in file.readline():
+
+        for id in  range(self.librariees):
+            row = file.readline()
             splitted = row.split(" ")
             books_count = int(splitted[0])
             signup_time = int(splitted[1])
@@ -44,7 +49,7 @@ class Loader:
                 books.append(int(book))
             id += 1
 
-            library = Library(books_count, signup_time, books_day, books)
+            library = Library(self.O, books_count, signup_time, books_day, books)
             self.libraries.append(library)
 
 

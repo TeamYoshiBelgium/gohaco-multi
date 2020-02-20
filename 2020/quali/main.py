@@ -15,7 +15,7 @@ def main():
     S = Settings()
     print("Script v%s started" % S.version)
 
-    # L = Loader("in/busy_day.in")
+    L = Loader("in/a_example.txt")
     # L = Loader("in/mother_of_all_warehouses.in")
     # L = Loader("in/redundancy.in")
     # L = Loader()

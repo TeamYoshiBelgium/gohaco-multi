@@ -26,6 +26,9 @@ class Library:
 
         Library.CNTR += 1
 
+    # def book_score(self, book):
+    #     return book.score - len()
+
     def get_score(self):
         if self.signup + self.O.T >= self.O.max:
             return -1
@@ -36,7 +39,7 @@ class Library:
         ))
 
         sortedBooks = list(sorted(
-            map(lambda book: book.score, filteredBooks),
+            map(lambda book: book.withlibrary_score(), filteredBooks),
             reverse=True
         ))
 
@@ -47,7 +50,7 @@ class Library:
         useless = self.O.max - self.O.T - self.signup - realDays
 
         # TODO investigate average rate?
-        score = sum(sortedBooks) / (useless**0.5 * 0.5 + self.signup)
+        score = sum(sortedBooks) / (useless**0.4 * 0.4 + self.signup**1.5)
         return score
 
 
@@ -69,7 +72,7 @@ class Library:
         sortedBooks = sorted(
             filteredBooks,
             reverse=True,
-            key=lambda book: book.score
+            key=lambda book: book.withlibrary_score()
         )
 
         days = self.O.max - (self.O.T + self.signup)

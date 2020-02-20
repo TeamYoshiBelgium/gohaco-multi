@@ -1,7 +1,3 @@
-
-from .Product import Product
-from .Warehouse import Warehouse
-from .Order import Order
 from .Optimizer import Optimizer
 
 

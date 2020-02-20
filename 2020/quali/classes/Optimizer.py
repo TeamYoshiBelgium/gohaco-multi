@@ -1,9 +1,3 @@
-from heapq import *
-from tqdm import tqdm
-from copy import copy
-
-from .Drone import Drone
-
 class Optimizer:
     def __init__(self):
 

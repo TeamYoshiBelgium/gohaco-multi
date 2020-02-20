@@ -42,8 +42,9 @@ class Optimizer:
                 library = tup[1]
 
                 library.finish()
-                self.used_libraries.append(library)
-                self.T += library.signup
+                if len(library.scanned_books) > 0:
+                    self.used_libraries.append(library)
+                    self.T += library.signup
 
             if len(bestLibraries) == 0:
                 break

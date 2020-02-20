@@ -66,14 +66,14 @@ class Library:
             self.books
         ))
 
-        days = self.O.max - (self.O.T + self.signup)
-        filteredBooks = filteredBooks[:days * self.rate]
-
         sortedBooks = sorted(
             filteredBooks,
             reverse=True,
             key=lambda book: book.score
         )
+
+        days = self.O.max - (self.O.T + self.signup)
+        sortedBooks = sortedBooks[:days * self.rate]
 
         for book in sortedBooks:
             book.done = True

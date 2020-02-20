@@ -63,12 +63,10 @@ class Library:
     def finish(self):
         self.T = self.O.T
 
-        print(self.books)
         filteredBooks = list(filter(
             lambda book: not book.done,
             self.books
         ))
-        print(filteredBooks)
 
         days = self.O.max - (self.O.T + self.signup)
         filteredBooks = filteredBooks[:days*self.rate]
@@ -82,6 +80,8 @@ class Library:
         for book in sortedBooks:
             book.done = True
             book.library = self
+
+        self.done = True
 
         self.scanned_books = sortedBooks
 

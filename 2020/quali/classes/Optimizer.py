@@ -1,3 +1,5 @@
+from tqdm import tqdm
+
 class Optimizer:
     def __init__(self):
         self.books = []
@@ -24,7 +26,7 @@ class Optimizer:
             key=lambda x: x.calc_score()
         )
 
-        for book in orderedBooks:
+        for book in tqdm(orderedBooks):
             if book.done:
                 continue
 
@@ -39,11 +41,12 @@ class Optimizer:
                     bestScore = score
                     bestLibrary = library
 
-            if library is not None:
-                library.finish()
-                self.used_libraries.append(library)
-                self.T += library.signup
-                print("Library", library, "chosen")
+            if bestLibrary is not None:
+                bestLibrary.finish()
+                self.used_libraries.append(bestLibrary)
+                self.T += bestLibrary.signup
+
+                print("Library", bestLibrary, "chosen")
 
 
 

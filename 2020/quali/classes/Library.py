@@ -46,6 +46,9 @@ class Library:
         realDays = math.ceil(len(sortedBooks) / self.rate)
         useless = self.O.max - self.O.T - self.signup - realDays
 
+        if useless == -self.signup:
+            useless = 0.1
+
         # TODO investigate average rate?
         return sum(sortedBooks) * (realDays / (useless + self.signup))
 

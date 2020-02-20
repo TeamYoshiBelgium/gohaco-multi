@@ -31,8 +31,13 @@ class Loader:
     def readBooks(self, file):
         row = file.readline().split(" ")
         self.book_scores = []
-        for book in row:
-            self.book_scores.append(int(book))
+        book_id = 0
+        for book_score_str in row:
+            book_id += 1
+            book_score = int(book_score_str)
+            self.book_scores.append(book_score)
+            book = Book(self.O, book_id, book_score)
+            self.books.append(book)
 
         pass
 
@@ -49,10 +54,9 @@ class Loader:
 
             next_row = file.readline().split(" ")
             books = []
-            library = Library(self.O, books_count, signup_time, books_day, books)
+            library = Library(self.O, id, books_count, signup_time, books_day, books)
             for book_id in next_row:
-                book = Book(self.O, book_id, self.book_scores[int(book_id)])
-                books.append(book)
+                books.append(self.books[int(book_id)])
             id += 1
 
             self.libraries.append(library)

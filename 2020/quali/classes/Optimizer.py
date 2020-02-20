@@ -34,10 +34,11 @@ class Optimizer:
 
                 score = library.get_score()
                 if score > 0:
-                    print((score, library))
-                    heappush(bestLibraries, (score, library))
+                    # print((score, library))
+                    heappush(bestLibraries, (-score, library))
 
             for tup in bestLibraries[:10]:
+                print("Adding", tup)
                 library = tup[1]
 
                 library.finish()

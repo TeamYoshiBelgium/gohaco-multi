@@ -9,7 +9,7 @@ class Library:
 
         self.done = False
         self.books_count = books_count
-        self.id = id
+        self.No = Library.CNTR
         self.rate = rate
         self.signup = signup
         self.books = books
@@ -23,6 +23,8 @@ class Library:
 
         # Time at which the library starts signup process
         self.T = -1
+
+        Library.CNTR += 1
 
     def get_score(self):
         if self.signup + self.O.T > self.O.max:

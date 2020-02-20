@@ -8,7 +8,7 @@ class Writer:
         score = 0
         actions = []
         for library in self.L.O.used_libraries:
-            for book in library:
+            for book in library.scanned_books:
                 score += book.score
 
         filename = self.L.filename.replace(".in", "." + str(score) + ".out").replace("in/", "out/")
@@ -17,10 +17,11 @@ class Writer:
             file.write(str(len(self.L.O.used_libraries)))
             file.write("\n")
             for library in self.L.O.used_libraries:
-                file.write(str(library.id) + " " + str(len(library.scanned_books)))
+                file.write(str(library.No) + " " + str(len(library.scanned_books)))
                 file.write("\n")
                 for book in library.scanned_books:
-                    file.write(str(book.id))
+                    file.write(str(book.No) + " ")
+                file.write("\n")
 
         print(self.L.filename, "=>", filename)
 

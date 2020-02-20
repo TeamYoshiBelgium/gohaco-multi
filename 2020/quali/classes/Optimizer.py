@@ -37,11 +37,12 @@ class Optimizer:
                     # print((score, library))
                     heappush(bestLibraries, (-score, library))
 
-            for tup in bestLibraries[:10]:
+            for tup in bestLibraries[:1]:
                 print("Adding", tup)
                 library = tup[1]
 
                 library.finish()
+                library.done = True
                 if len(library.scanned_books) > 0:
                     self.used_libraries.append(library)
                     self.T += library.signup

@@ -19,7 +19,7 @@ class Loader:
 
             self.O.books = self.books
             self.O.libraries = self.libraries
-            self.O.days = self.days
+            self.O.max = self.days
             self.O.optimize()
 
     def readHeaderLine(self, file):

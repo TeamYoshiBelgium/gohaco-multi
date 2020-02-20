@@ -2,7 +2,7 @@ class Optimizer:
     def __init__(self):
         self.books = []
         self.libraries = []
-        self.max = []
+        self.max = 0
 
         self.used_libraries = []
 

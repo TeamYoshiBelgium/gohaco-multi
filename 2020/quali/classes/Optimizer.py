@@ -39,6 +39,7 @@ class Optimizer:
 
             if library is not None:
                 library.finish()
+                self.T += library.signup
                 print("Library", library, "chosen")
 
 

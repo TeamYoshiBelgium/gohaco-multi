@@ -21,11 +21,7 @@ class Optimizer:
         orderedBooks = sorted(
             self.books,
             reverse=True,
-<<<<<<< HEAD
             key=lambda x: x.calc_score()
-=======
-            key=lambda x: x.get_score()
->>>>>>> 8af7b303872b49f937556031673a37707494f01a
         )
 
         for book in orderedBooks:

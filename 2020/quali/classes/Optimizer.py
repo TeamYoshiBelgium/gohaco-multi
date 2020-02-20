@@ -1,8 +1,8 @@
 class Optimizer:
-    def __init__(self, books, libraries, scanDays):
-        self.books = books
-        self.libraries = libraries
-        self.max = scanDays
+    def __init__(self):
+        self.books = []
+        self.libraries = []
+        self.max = []
 
         self.T = 0
 
@@ -19,7 +19,7 @@ class Optimizer:
         orderedBooks = sorted(
             self.books,
             reverse=True,
-            key=lambda x: x.score()
+            key=lambda x: x.get_score()
         )
 
         for book in orderedBooks:

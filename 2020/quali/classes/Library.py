@@ -47,7 +47,7 @@ class Library:
         useless = self.O.max - self.O.T - self.signup - realDays
 
         # TODO investigate average rate?
-        score = sum(sortedBooks) * (realDays / (useless + self.signup))
+        score = sum(sortedBooks) / (useless**0.5 * 0.5 + self.signup)
         return score
 
 

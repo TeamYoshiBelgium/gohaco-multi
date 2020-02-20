@@ -26,6 +26,7 @@ class Optimizer:
         #     print(book.libraries)
         # exit
 
+        i = 0
         while True:
             bestLibraries = []
             for library in self.libraries:
@@ -38,6 +39,8 @@ class Optimizer:
                     heappush(bestLibraries, (-score, library))
 
             for tup in bestLibraries[:1]:
+                if (i % 20 == 0):
+                    print("Aded 20, total:", len(self.used_libraries))
                 # print("Adding", tup)
                 library = tup[1]
 

@@ -19,10 +19,9 @@ def main():
     # L = Loader("in/b_read_on.in")
     # L = Loader("in/c_incunabula.in")
     # L = Loader("in/d_tough_choices.in")
-    L = Loader("in/e_so_many_books.in")
-    # L = Loader("in/f_libraries_of_the_world.in")
+    # L = Loader("in/e_so_many_books.in")
+    L = Loader("in/f_libraries_of_the_world.in")
     # L = Loader()
-    print(L.filename)
     W = Writer(L)
     W.write()
 

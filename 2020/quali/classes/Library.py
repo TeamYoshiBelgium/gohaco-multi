@@ -35,13 +35,13 @@ class Library:
             self.books
         ))
 
-        days = self.O.max - (self.O.T + self.signup)
-        filteredBooks = filteredBooks[:days * self.rate]
-
         sortedBooks = list(sorted(
             map(lambda book: book.score, filteredBooks),
             reverse=True
         ))
+
+        days = self.O.max - (self.O.T + self.signup)
+        sortedBooks = sortedBooks[:days * self.rate]
 
         realDays = math.ceil(len(sortedBooks) / self.rate)
         useless = self.O.max - self.O.T - self.signup - realDays

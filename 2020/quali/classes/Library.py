@@ -31,7 +31,7 @@ class Library:
             return -1
 
         filteredBooks = list(filter(
-            lambda book: book.done,
+            lambda book: not book.done,
             self.books
         ))
 
@@ -39,7 +39,7 @@ class Library:
         filteredBooks = filteredBooks[:days*self.rate]
 
         sortedBooks = list(sorted(
-            map(lambda book: book.score, self.books)  ,
+            map(lambda book: book.score, filteredBooks)  ,
             reverse=True
         ))
 
@@ -63,16 +63,18 @@ class Library:
     def finish(self):
         self.T = self.O.T
 
+        print(self.books)
         filteredBooks = list(filter(
-            lambda book: book.done,
+            lambda book: not book.done,
             self.books
         ))
+        print(filteredBooks)
 
         days = self.O.max - (self.O.T + self.signup)
         filteredBooks = filteredBooks[:days*self.rate]
 
         sortedBooks = sorted(
-            self.books,
+            filteredBooks,
             reverse=True,
             key=lambda book: book.score
         )
@@ -82,3 +84,9 @@ class Library:
             book.library = self
 
         self.scanned_books = sortedBooks
+
+    def __str__(self):
+        return "LIB%s(R:%s, S:%s)" % (self.No, self.rate, self.signup)
+
+    def __repr__(self):
+        return "LIB%s(R:%s, S:%s)" % (self.No, self.rate, self.signup)

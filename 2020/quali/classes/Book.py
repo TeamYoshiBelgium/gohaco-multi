@@ -29,8 +29,7 @@ class Book:
 
 
     def __str__(self):
-        return 'Book (%i %i %s)' % (self.id, self.score, self.done)
+        return 'Book%i(%i %s)' % (self.id, self.score, self.done)
 
     def __repr__(self):
         return str(self)
-    

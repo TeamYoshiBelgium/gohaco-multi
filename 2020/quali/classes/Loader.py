@@ -17,7 +17,12 @@ class Loader:
             for library in self.libraries:
                 print(len(library.books))
 
-            self.O.books = self.books
+            filtered_books = list(filter(
+            lambda book: not len(book.libraries) == 0,
+            self.books
+        ))
+
+            self.O.books = filtered_books
             self.O.libraries = self.libraries
             self.O.max = self.days
             self.O.optimize()

@@ -36,21 +36,19 @@ class Library:
         ))
 
         days = self.O.max - (self.O.T + self.signup)
-        filteredBooks = filteredBooks[:days*self.rate]
+        filteredBooks = filteredBooks[:days * self.rate]
 
         sortedBooks = list(sorted(
-            map(lambda book: book.score, filteredBooks)  ,
+            map(lambda book: book.score, filteredBooks),
             reverse=True
         ))
 
         realDays = math.ceil(len(sortedBooks) / self.rate)
         useless = self.O.max - self.O.T - self.signup - realDays
 
-        if useless == -self.signup:
-            useless = 0.1
-
         # TODO investigate average rate?
-        return sum(sortedBooks) * (realDays / (useless + self.signup))
+        score = sum(sortedBooks) * (realDays / (useless + self.signup))
+        return score
 
     def get_book_score(self):
         book_scores = 0
@@ -58,7 +56,6 @@ class Library:
             book_score = book.get_score()
             book_scores += book_score
         return book_scores
-
 
     def finish(self):
         self.T = self.O.T
@@ -69,7 +66,7 @@ class Library:
         ))
 
         days = self.O.max - (self.O.T + self.signup)
-        filteredBooks = filteredBooks[:days*self.rate]
+        filteredBooks = filteredBooks[:days * self.rate]
 
         sortedBooks = sorted(
             filteredBooks,

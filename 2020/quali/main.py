@@ -16,8 +16,11 @@ def main():
     print("Script v%s started" % S.version)
 
     L = Loader("in/a_example.txt")
-    # L = Loader("in/mother_of_all_warehouses.in")
-    # L = Loader("in/redundancy.in")
+    # L = Loader("in/b_read_on.txt")
+    # L = Loader("in/c_incunabula.txt")
+    # L = Loader("in/d_tough_choices.txt")
+    # L = Loader("in/e_so_many_books.in")
+    # L = Loader("in/f_libraries_of_the_world.in")
     # L = Loader()
     W = Writer(L)
     W.write()

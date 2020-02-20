@@ -4,17 +4,20 @@ import math
 class Library:
     CNTR = 0
 
-    def __init__(self, O, books_count, signup, rate, books):
+    def __init__(self, O, id, books_count, signup, rate, books):
         self.O = O
 
         self.done = False
         self.books_count = books_count
+        self.id = id
         self.rate = rate
         self.signup = signup
         self.books = books
 
         self.days_needed = math.ceil(self.books_count * 1.0 / self.rate)
         self.book_score = self.get_book_score()
+        for book in self.books:
+            book.addLibrary(book, self)
 
         self.scanned_books = []
 

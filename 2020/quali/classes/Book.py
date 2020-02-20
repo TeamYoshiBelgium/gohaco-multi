@@ -10,6 +10,18 @@ class Book:
         self.No = Book.CNTR
         Book.CNTR += 1
 
+        self.done = False
+        self.library = None
+
     def addLibrary(self, Library):
         self.libraries.append(Library)
 
+    def setLibrary(self, Library):
+        self.done = True
+        self.library = Library
+
+    def score(self):
+        if (self.done is True):
+            raise Exception("Book already done?")
+
+        return self.score / len(self.libraries)

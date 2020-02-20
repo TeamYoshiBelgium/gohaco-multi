@@ -6,7 +6,6 @@ class Optimizer:
 
         self.T = 0
 
-
     def init(self):
         pass
 
@@ -16,6 +15,33 @@ class Optimizer:
 
     def optimize(self):
         self.preprocess()
+
+        orderedBooks = sorted(
+            self.books,
+            reverse=True,
+            key=lambda x: x.score()
+        )
+
+        for book in orderedBooks:
+            if book.done:
+                continue
+
+            bestLibrary = None
+            bestScore = 0
+            for library in book.libraries:
+                if library.done:
+                    continue
+
+                score = library.get_score()
+                if score > bestScore:
+                    bestScore = score
+                    bestLibrary = library
+
+            if library is not None:
+                library.finish()
+                print("Library", library, "chosen")
+
+
 
 
 

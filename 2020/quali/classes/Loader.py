@@ -7,84 +7,44 @@ class Loader:
         with open(filename) as file:
             self.O = Optimizer()
 
-            # self.readHeaderLine(file)
-            # self.readProductTypesLine(file)
-            # self.readProductWeightLine(file)
-            # self.readWarehouseCountLine(file)
-
-            # for i in range(self.warehouseCount):
-            #     self.readWareHouse(file, i)
-
-            # self.readOrderCountLine(file)
-
-            # for i in range(self.orderCount):
-            #     self.readOrder(file, i)
+            self.readHeaderLine(file)
+            self.readBooks(file)
+            self.readLibraries(file)
 
             self.O.optimize()
 
     def readHeaderLine(self, file):
-        # row = file.readline().split(" ")
+        row = file.readline().split(" ")
 
-        # self.cols   = int(row[0])
-        # self.rows   = int(row[1])
-        # self.drones = int(row[2])
-        # self.turns  = int(row[3])
-        # self.load   = int(row[4])
+        self.books   = int(row[0])
+        self.librariees   = int(row[1])
+        self.days = int(row[2])
         pass
 
-    def readProductTypesLine(self, file):
-        # self.productCount = int(file.readline())
-        # self.products = [None]*self.productCount
-        # self.productWarehouseCount = 0
-        # self.orderProductCount = 0
+    def readBooks(self, file):
+        row = file.readline().split(" ")
+        self.book_scores = []
+        for book in row:
+            self.book_scores.append(int(book))
+
         pass
 
-    def readProductWeightLine(self, file):
-        pass
-        # weights = file.readline().split(" ")
-        # i = 0
-        # for weight in weights:
-        #     self.products[i] = Product(self.O, int(weight))
+    def readLibraries(self, file):
+        self.libraries = []
+        id = 0
+        for row in file.readline():
+            splitted = row.split(" ")
+            books_count = int(splitted[0])
+            signup_time = int(splitted[1])
+            books_day = int(splitted[2])
 
-        #     i += 1
+            next_row = file.readline().split(" ")
+            books = []
+            for book in next_row:
+                books.append(int(book))
+            id += 1
 
-    def readWarehouseCountLine(self, file):
-        # self.warehouseCount = int(file.readline())
-        # self.warehouses = [None]*self.warehouseCount
-        pass
+            library = Library(books_count, signup_time, books_day, books)
+            self.libraries.append(library)
 
-    def readWareHouse(self, file, i):
-        # self.readWareHouseLocationLine(file, i)
-        # self.readWareHouseProductLine(file, i)
-        pass
-
-    def readWareHouseLocationLine(self, file, i):
-        # loc = file.readline().split(" ")
-        # self.warehouses[i] = Warehouse(self.O, int(loc[0]), int(loc[1]))
-        pass
-
-    def readWareHouseProductLine(self, file, i):
-        # counts = file.readline().split(" ")
-        # for count in counts:
-        #     self.warehouses[i].initStock(int(count))
-        #     self.productWarehouseCount += int(count)
-        pass
-
-    def readOrderCountLine(self, file):
-        # self.orderCount = int(file.readline())
-        # self.orders = [None]*self.orderCount
-        pass
-
-    def readOrder(self, file, i):
-        # location     = file.readline().split(" ")
-        # productCount = int(file.readline())
-        # products     = file.readline().split(" ")
-
-        # realProducts = []
-        # for product in products:
-        #     realProducts.append(self.products[int(product)])
-        #     self.orderProductCount += 1
-
-        # self.orders[i] = Order(self.O, int(location[0]), int(location[1]), realProducts)
-        pass
 

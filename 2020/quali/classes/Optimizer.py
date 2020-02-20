@@ -1,10 +1,13 @@
 class Optimizer:
-    def __init__(self):
+    def __init__(self, books, libraries, scanDays):
+        self.books = books
+        self.libraries = libraries
+        self.max = scanDays
 
-        pass
+        self.T = 0
+
 
     def init(self):
-
         pass
 
     def preprocess(self):

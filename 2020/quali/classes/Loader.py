@@ -46,7 +46,7 @@ class Loader:
                 books.append(int(book))
             id += 1
 
-            library = Library(books_count, signup_time, books_day, books)
-            self.libraries.append(library)
+            # library = Library(books_count, signup_time, books_day, books)
+            # self.libraries.append(library)
 
 

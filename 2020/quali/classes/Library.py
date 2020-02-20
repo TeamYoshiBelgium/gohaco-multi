@@ -8,4 +8,6 @@ class Library:
         self.rate = rate
         self.signup = signup
 
+        for book in self.books:
+            book.addLibrary(book, self)
 

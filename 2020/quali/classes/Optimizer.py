@@ -4,6 +4,8 @@ class Optimizer:
         self.libraries = libraries
         self.max = scanDays
 
+        self.used_libraries = []
+
         self.T = 0
 
     def init(self):
@@ -19,7 +21,7 @@ class Optimizer:
         orderedBooks = sorted(
             self.books,
             reverse=True,
-            key=lambda x: x.score()
+            key=lambda x: x.calc_score()
         )
 
         for book in orderedBooks:
@@ -39,6 +41,7 @@ class Optimizer:
 
             if library is not None:
                 library.finish()
+                self.used_libraries.append(library)
                 self.T += library.signup
                 print("Library", library, "chosen")
 

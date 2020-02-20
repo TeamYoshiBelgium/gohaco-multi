@@ -16,13 +16,34 @@ class Library:
         self.days_needed = math.ceil(self.books_count * 1.0 / self.rate)
         self.book_score = self.get_book_score()
 
+        self.scanned_books = []
+
+        # Time at which the library starts signup process
+        self.T = -1
+
     def get_score(self):
-        signup_score = -self.signup
-        book_score = self.get_book_score()
-        length_score = -self.days_needed
-        rate_score = self.rate
-        score = signup_score + book_score + length_score + rate_score
-        return score
+        if self.signup + self.O.T > self.O.max:
+            return -1
+
+        filteredBooks = filter(
+            lambda book: book.done,
+            self.books
+        )
+
+        days = self.O.max - (self.O.T + self.signup)
+        filteredBooks = filteredBooks[:days*self.rate]
+
+        sortedBooks = sorted(
+            self.books,
+            reverse=True,
+            key=lambda book: book.score
+        )
+
+        realDays = ceil(len(sortedBooks) / self.rate)
+        useless = self.O.max - self.O.T - self.signup - realDays
+
+        # TODO investigate average rate?
+        return sum(sortedBooks) * (realDays / (useless + self.signup))
 
     def get_book_score(self):
         book_scores = 0
@@ -30,3 +51,27 @@ class Library:
             book_score = book.get_score()
             book_scores += book_score
         return book_scores
+
+
+    def finish(self):
+        self.T = self.O.T
+
+        filteredBooks = filter(
+            lambda book: book.done,
+            self.books
+        )
+
+        days = self.O.max - (self.O.T + self.signup)
+        filteredBooks = filteredBooks[:days*self.rate]
+
+        sortedBooks = sorted(
+            self.books,
+            reverse=True,
+            key=lambda book: book.score
+        )
+
+        for book in sortedBooks:
+            book.done = True
+            book.library = self
+
+        self.scanned_books = sortedBooks

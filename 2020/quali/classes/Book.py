@@ -21,7 +21,7 @@ class Book:
         self.done = True
         self.library = Library
 
-    def get_score(self):
+    def calc_score(self):
         if (self.done is True):
             raise Exception("Book already done?")
 

@@ -21,7 +21,4 @@ class Optimizer:
         self.preprocess()
 
 
-        print("Finished:   ", finished)
-        print("Unfinished: ", len(self.orders) - finished)
-
 

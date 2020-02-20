@@ -16,8 +16,9 @@ def main():
     print("Script v%s started" % S.version)
 
     # L = Loader("in/busy_day.in")
-    L = Loader("in/mother_of_all_warehouses.in")
+    # L = Loader("in/mother_of_all_warehouses.in")
     # L = Loader("in/redundancy.in")
+    # L = Loader()
     W = Writer(L)
     W.write()
 

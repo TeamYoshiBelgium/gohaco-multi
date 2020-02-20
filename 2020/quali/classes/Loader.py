@@ -1,5 +1,6 @@
 from .Optimizer import Optimizer
 from .Library import Library
+from .Book import Book
 
 class Loader:
     def __init__(self, filename):
@@ -45,8 +46,9 @@ class Loader:
 
             next_row = file.readline().split(" ")
             books = []
-            for book in next_row:
-                books.append(int(book))
+            for book_id in next_row:
+                book = Book(self.O, book_id, self.book_scores[int(book_id)])
+                books.append(book)
             id += 1
 
             library = Library(self.O, books_count, signup_time, books_day, books)

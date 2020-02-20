@@ -25,3 +25,10 @@ class Book:
             raise Exception("Book already done?")
 
         return self.score / len(self.libraries)
+    
+    def get_score(self):
+        if self.done:
+            return 0
+        return self.score
+
+

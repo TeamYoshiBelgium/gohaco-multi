@@ -22,9 +22,10 @@ class Book:
         self.library = Library
 
     def calc_score(self):
-        if (self.done is True):
+        if self.done is True:
             raise Exception("Book already done?")
-
+        if len(self.libraries) == 0:
+            return -1
         return self.score / len(self.libraries)
 
 

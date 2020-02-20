@@ -41,8 +41,6 @@ class Book:
         self.sortedLibraries = libraries
 
     def calc_score(self):
-        if self.done is True:
-            raise Exception("Book already done?")
         if len(self.libraries) == 0:
             return -1
 

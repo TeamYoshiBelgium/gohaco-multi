@@ -83,6 +83,12 @@ class Library:
 
         self.scanned_books = sortedBooks
 
+    def __gt__(self, other):
+        return self.No > other.No
+
+    def __lt__(self, other):
+        return self.No > other.No
+
     def __str__(self):
         return "LIB%s(R:%s, S:%s)" % (self.No, self.rate, self.signup)
 

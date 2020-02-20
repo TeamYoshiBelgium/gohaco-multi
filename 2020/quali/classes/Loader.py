@@ -14,8 +14,8 @@ class Loader:
             self.readBooks(file)
             self.readLibraries(file)
 
-            for library in self.libraries:
-                print(len(library.books))
+            # for library in self.libraries:
+            #     print(len(library.books))
 
             filtered_books = list(filter(
                 lambda book: not len(book.libraries) == 0,

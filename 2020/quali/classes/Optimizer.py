@@ -1,4 +1,5 @@
 from tqdm import tqdm
+from heapq import *
 
 class Optimizer:
     def __init__(self):
@@ -19,42 +20,29 @@ class Optimizer:
         # print(self.orders[1], self.orders[1].orders[:20])
 
     def optimize(self):
-        self.preprocess()
+        # self.preprocess()
 
         # for book in self.books:
         #     print(book.libraries)
         # exit
 
-        orderedBooks = sorted(
-            self.books,
-            reverse=True,
-            key=lambda x: x.calc_score()
-        )
-
-
-        for book in tqdm(orderedBooks):
-            if book.done:
-                continue
-
-            bestLibrary = None
-            bestScore = 0
-            for library in book.libraries:
+        while True:
+            bestLibraries = []
+            for library in self.libraries:
                 if library.done:
                     continue
 
                 score = library.get_score()
-                if score > bestScore:
-                    bestScore = score
-                    bestLibrary = library
+                if score > 0:
+                    print((score, library))
+                    heappush(bestLibraries, (score, library))
 
-            if bestLibrary is not None:
-                bestLibrary.finish()
-                self.used_libraries.append(bestLibrary)
-                self.T += bestLibrary.signup
+            for tup in bestLibraries[:10]:
+                library = tup[1]
 
-                print("Library", bestLibrary, "chosen with score", bestScore)
+                library.finish()
+                self.used_libraries.append(library)
+                self.T += library.signup
 
-
-
-
-
+            if len(bestLibraries) == 0:
+                break

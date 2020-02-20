@@ -30,6 +30,7 @@ class Optimizer:
             reverse=True,
             key=lambda x: x.calc_score()
         )
+        daysleft = self.max
 
 
         for book in tqdm(orderedBooks):
@@ -48,11 +49,12 @@ class Optimizer:
                     bestLibrary = library
 
             if bestLibrary is not None:
-                bestLibrary.finish()
+                daysNeeded = bestLibrary.finish()
                 self.used_libraries.append(bestLibrary)
                 self.T += bestLibrary.signup
 
                 print("Library", bestLibrary, "chosen with score", bestScore)
+                daysleft -= daysNeeded
 
 
 

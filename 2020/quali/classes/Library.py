@@ -83,6 +83,9 @@ class Library:
 
         self.scanned_books = sortedBooks
 
+        days_needed = self.signup 
+        return 0
+
     def __str__(self):
         return "LIB%s(R:%s, S:%s)" % (self.No, self.rate, self.signup)
 

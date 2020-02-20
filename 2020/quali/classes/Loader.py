@@ -18,9 +18,9 @@ class Loader:
                 print(len(library.books))
 
             filtered_books = list(filter(
-            lambda book: not len(book.libraries) == 0,
-            self.books
-        ))
+                lambda book: not len(book.libraries) == 0,
+                self.books
+            ))
 
             self.O.books = filtered_books
             self.O.libraries = self.libraries

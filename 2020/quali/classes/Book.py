@@ -1,9 +1,10 @@
 class Book:
     CNTR = 0
 
-    def __init__(self, O, score):
+    def __init__(self, O, id, score):
         self.O = O
 
+        self.id = id
         self.score = score
         self.libraries = []
 
@@ -20,15 +21,10 @@ class Book:
         self.done = True
         self.library = Library
 
-    def score(self):
+    def get_score(self):
         if (self.done is True):
             raise Exception("Book already done?")
 
         return self.score / len(self.libraries)
-    
-    def get_score(self):
-        if self.done:
-            return 0
-        return self.score
 
 

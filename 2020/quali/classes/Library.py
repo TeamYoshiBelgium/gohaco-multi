@@ -25,7 +25,8 @@ class Library:
         return score
 
     def get_book_score(self):
-        book_score = 0
+        book_scores = 0
         for book in self.books:
-            book_score += book.get_score()
-        return book_score
+            book_score = book.get_score()
+            book_scores += book_score
+        return book_scores

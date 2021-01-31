@@ -34,10 +34,11 @@ class Writer:
             file.write(str(len(self.L.O.arms)))
             file.write("\n")
             for arm in self.L.O.arms:
-                file.write(str(arm.x) + " " + str(arm.y) + " " + str(len(arm.tasks)) + " " + str(len(arm.instructions)))
+                file.write(str(arm.mountpoint.x) + " " + str(arm.mountpoint.y) + " " + str(len(arm.tasks)) + " " + str(len(arm.instructions)))
                 file.write("\n")
                 for task in arm.tasks:
                     file.write(str(task.No) + " ")
                 file.write("\n")
                 for instruction in arm.instructions:
                     file.write(str(instruction) + " ")
+                file.write("\n")

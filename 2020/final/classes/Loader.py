@@ -1,6 +1,7 @@
 from .Optimizer import Optimizer
 from .MountPoint import MountPoint
 from .Task import Task
+from .Point import Point
 
 
 class Loader:
@@ -14,17 +15,6 @@ class Loader:
             self.read_mount_points(file)
             self.read_tasks(file)
 
-            # for library in self.libraries:
-            #     print(len(library.books))
-
-            filtered_books = list(filter(
-                lambda book: not len(book.libraries) == 0,
-                self.books
-            ))
-
-            self.O.books = filtered_books
-            self.O.libraries = self.libraries
-            self.O.max = self.days
         pass
 
     def read_header_line(self, file):
@@ -34,8 +24,8 @@ class Loader:
         self.maps_high = int(row[1])
         self.arms_count = int(row[2])
         self.mount_points_count = int(row[3])
-        self._tasks_count = int(row[4])
-        self._steps_count = int(row[5])
+        self.tasks_count = int(row[4])
+        self.steps_count = int(row[5])
         pass
 
     def read_mount_points(self, file):
@@ -44,18 +34,25 @@ class Loader:
             row = file.readline().split(" ")
             x = int(row[0])
             y = int(row[1])
-            mount_point = MountPoint(self.O, id, x, y)
+            point = Point(self.O, id, x, y)
+            mount_point = MountPoint(self.O, id, point)
             self.mount_points.append(mount_point)
 
         pass
 
     def read_tasks(self, file):
         self.tasks = []
-        for id in len(self.mount_points_count):
+        for id in len(self.tasks_count):
             row = file.readline().split(" ")
-            x = int(row[0])
-            y = int(row[1])
-            mount_point = Task(self.O, id, x, y)
-            self.mount_points.append(mount_point)
+            score = int(row[0])
+            points_count = int(row[1])
+            task = Task(self.O, score, points_count)
+            row = file.readline().split(" ")
+            for point_id in len(points_count):
+                x = int(row[point_id + 0])
+                y = int(row[point_id + 1])
+                point = Point(self.O, point_id, x, y)
+                task.points.append(point)
+            self.tasks.append(task)
 
         pass

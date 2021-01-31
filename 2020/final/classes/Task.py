@@ -1,10 +1,12 @@
 class Task:
     CNTR = 0
 
-    def __init__(self, optimizer, x, y):
+    def __init__(self, optimizer, score, points_count):
         self.O = optimizer
-        self.x = x
-        self.y = y
+        self.score = score
+        self.points_count = points_count
+        self.points = []
+
         self.No = Task.CNTR
 
         self.solved = False

@@ -3,7 +3,7 @@ name: 2020 final problem
 on:
   push:
     paths:
-    - './2020/final/*'
+    - '2020/final/**'
 
 jobs:
   build:

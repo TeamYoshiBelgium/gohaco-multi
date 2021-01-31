@@ -25,8 +25,12 @@ class Optimizer:
         #     book.calc_library_scores()
         # print(self.orders[1], self.orders[1].orders[:20])
         with Pool(THREADS) as p:
-            p.map(self.parallelCalculation, self.mountpoints)
-        pass
+            mount_score_tuples = p.map(self.parallelCalculation, self.mountpoints)
+
+        self.mountpoints = map(
+            lambda tup: tup[1],
+            sorted(mount_score_tuples, reverse=True, key=lambda mp: mp[0])
+        )
 
     def optimize(self):
 
@@ -36,7 +40,10 @@ class Optimizer:
         self.analyze()
 
     def parallelCalculation(self, mountpoint):
-        mountpoint.find_tasks_sorter(self.tasks)
+        best_tasks = mountpoint.find_task_sorter(self.tasks)
+        score = mountpoint.best_case_score(best_tasks)
+
+        return (score, mountpoint)
 
     def write(self):
         pass

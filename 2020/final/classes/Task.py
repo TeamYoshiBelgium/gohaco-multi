@@ -26,7 +26,7 @@ class Task:
     def __str__(self):
         return "TASK%03s(%-03s/%03s)" % (self.No, self.score, self.points_count)
 
-    def get_score_per_moves(self, arm: Arm):
+    def get_score_and_moves(self, arm: Arm):
         current_loc_x = arm.x
         current_loc_y = arm.y
         steps_needed = 0
@@ -40,7 +40,11 @@ class Task:
             current_loc_x = point.x
             current_loc_y = point.y
 
-        if steps_needed == 0:
-            return self.score
+        return (self.score, steps_needed)
 
-        return self.score / steps_needed
+    def get_score_per_moves(self, arm: Arm):
+        (score, moves) = self.get_score_and_moves(self, arm)
+        if moves == 0:
+            moves = 1
+
+        return score / moves

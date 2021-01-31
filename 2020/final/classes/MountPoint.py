@@ -29,3 +29,20 @@ class MountPoint:
             results.append(result)
 
         results.sort(key=lambda x: x[0], reverse=True)
+
+        return results
+
+    def best_case_score(self, task_tuples):
+        steps = 0
+        score = 0
+        i = 0
+        while steps < self.O.L.steps_count:
+            if i > len(task_tuples):
+                return score
+
+            score += task_tuples[1]
+            steps += task_tuples[1].get_score_and_moves(self)[1]
+
+            i += 1
+
+        return score

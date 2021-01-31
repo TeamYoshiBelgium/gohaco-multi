@@ -4,11 +4,6 @@ from .Task import Task
 from .Point import Point
 from .Arm import Arm
 
-from pathfinding.core.diagonal_movement import DiagonalMovement
-from pathfinding.core.grid import Grid
-from pathfinding.finder.a_star import AStarFinder
-
-
 class Loader:
     def __init__(self, filename): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
         self.map = []
@@ -23,10 +18,6 @@ class Loader:
         self.map = [[0] * self.maps_high] * self.maps_width
         for point in self.mount_points:
             self.map[point.x][point.y] = -1
-
-        for x in range(len(self.map)):
-            print(self.map[x])
-
 
         self.O.init()
 

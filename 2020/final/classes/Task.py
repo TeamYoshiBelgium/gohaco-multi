@@ -5,6 +5,7 @@ from pathfinding.core.diagonal_movement import DiagonalMovement
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 
+
 class Task:
     CNTR = 0
 
@@ -88,4 +89,3 @@ class Task:
             return None
 
         return path
-

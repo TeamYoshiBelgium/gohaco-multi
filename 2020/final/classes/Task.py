@@ -45,7 +45,7 @@ class Task:
             current_loc_x = point.x
             current_loc_y = point.y
 
-        return (self.score, steps_needed)
+        return self.score, steps_needed
 
     def get_score_per_moves(self, arm: Arm):
         result = self.get_score_and_moves(arm)
@@ -79,11 +79,19 @@ class Task:
         if start_x == end_x and start_y == end_y:
             return []
 
+        start_value = self.O.L.map[start_x][start_y]
+        end_value = self.O.L.map[start_x][start_y]
+        self.O.L.map[start_x][start_y] = 1
+        self.O.L.map[start_x][start_y] = 1
+
         grid = Grid(matrix=self.O.L.map)
         start = grid.node(start_y, start_x)
         end = grid.node(end_y, end_x)
         finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
         path, runs = finder.find_path(start, end, grid)
+
+        self.O.L.map[start_x][start_y] = start_value
+        self.O.L.map[start_x][start_y] = end_value
 
         if len(path) == 0:
             return None

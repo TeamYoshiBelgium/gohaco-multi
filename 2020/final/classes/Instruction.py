@@ -1,10 +1,11 @@
 from . import Arm
 from . import Optimizer
 
+
 class Instruction:
     CNTR = 0
 
-    def __init__(self, optimizer: Optimizer, arm : Arm, x1: int, y1: int, x2: int, y2: int):
+    def __init__(self, optimizer: Optimizer, arm: Arm, x1: int, y1: int, x2: int, y2: int):
         self.O = optimizer
         self.No = Instruction.CNTR
         self.x1 = x1

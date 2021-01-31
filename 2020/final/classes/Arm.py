@@ -1,4 +1,11 @@
-from . import Optimizer
+from math import copysign
+
+import numpy as np
+
+from .Instruction import Instruction
+from .Optimizer import Optimizer
+from .Task import Task
+from .Point import Point
 
 class Arm:
     CNTR = 0
@@ -10,10 +17,9 @@ class Arm:
         self.id = id
         self.No = id
 
-        self.tasks = []
-        self.instructions = []
-
-        self.blocked = []
+        self.tasks: [Task] = []
+        self.instructions: [Instruction] = []
+        self.blocked: [{x: int, y: int}] = []
         for i in range(self.O.L.steps_count):
             self.blocked.append({})
 
@@ -25,6 +31,27 @@ class Arm:
         self.y = mountpoint.y
 
         mountpoint.arm = self
+
+    def exec_task(self, task: Task):
+        for point in task.points:
+            self.go_to_point(point)
+
+        task.solved = True
+        self.tasks.append(task)
+
+    def go_to_point(self, point: Point):
+        while self.x != point.x:
+            instruction = Instruction(self.O, self, self.x, self.y, self.x + np.sign(self.x - point.x), self.y)
+            self.exec_instruction(instruction)
+        while self.y != point.y:
+            instruction = Instruction(self.O, self, self.x, self.y, self.x, self.y + np.sign(self.y - point.y))
+            self.exec_instruction(instruction)
+
+    def exec_instruction(self, instruction: Instruction):
+        self.instructions.append(instruction)
+        self.x = instruction.x2
+        self.y = instruction.y2
+        self.blocked.append({'x': instruction.x2, 'y': instruction.y2})
 
     def __gt__(self, other):
         return self.No > other.No

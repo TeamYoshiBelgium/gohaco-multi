@@ -9,7 +9,7 @@ class MountPoint:
         self.x = x
         self.y = y
 
-        self.No = MountPoint.CNTR
+        self.No = id
 
     def score(self):
 

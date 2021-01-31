@@ -1,14 +1,14 @@
-class Task:
+class Arm:
     CNTR = 0
 
     def __init__(self, optimizer, x, y):
         self.O = optimizer
         self.x = x
         self.y = y
-        self.No = Task.CNTR
+        self.No = Arm.CNTR
 
-        self.solved = False
-        self.arm = None
+        self.tasks = []
+        self.instructions = []
 
     def __gt__(self, other):
         return self.No > other.No
@@ -17,4 +17,4 @@ class Task:
         return str(self)
 
     def __str__(self):
-        return "TASK%03s(%-03s/%03s)" % (self.No, self.fill, self.maxSize)
+        return "ARM%03s(%-03s/%03s)" % (self.No, self.x, self.y)

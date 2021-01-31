@@ -1,9 +1,9 @@
-name: 2020 Practice Problem
+name: 2020 final problem
 
 on:
   push:
     paths:
-    - './2020/prac/**'
+    - './2020/final/**'
 
 jobs:
   build:
@@ -13,21 +13,21 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python 3.7
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
-        python-version: 3.7
+        python-version: pypy3
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run solver
       run: |
-        cd ./2019/prac/
+        cd ./2020/final/
         python main.py -a
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
         # Artifact name
-        name: "2020-prac-output"
+        name: "2020-final-output"
         # Directory containing files to upload
-        path: "./2020/prac/output"
+        path: "./2020/final/output"

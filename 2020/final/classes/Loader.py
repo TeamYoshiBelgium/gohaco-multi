@@ -11,7 +11,6 @@ class Loader:
         self.O = Optimizer(self)  # heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim)
 
         with open(filename) as file:
-
             self.read_header_line(file)
             self.read_mount_points(file)
             self.read_tasks(file)

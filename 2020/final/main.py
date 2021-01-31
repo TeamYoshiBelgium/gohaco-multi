@@ -12,10 +12,10 @@ def main():
         L = Loader(sys.argv[1])
     else:
         L = Loader("in/a_example.in")
-        L = Loader("in/b_single_arm.in")
-        L = Loader("in/d_tight_schedule.in")
-        L = Loader("in/e_dense_workspace.in")
-        L = Loader("in/f_decentralized.in")
+        # L = Loader("in/b_single_arm.in")
+        # L = Loader("in/d_tight_schedule.in")
+        # L = Loader("in/e_dense_workspace.in")
+        # L = Loader("in/f_decentralized.in")
 
     print("Script v%s started [%s]" % (S.version, L.filename))
 

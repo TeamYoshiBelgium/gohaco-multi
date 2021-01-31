@@ -40,8 +40,8 @@ class MountPoint:
             if i > len(task_tuples):
                 return score
 
-            score += task_tuples[1]
-            steps += task_tuples[1].get_score_and_moves(self)[1]
+            score += task_tuples[i][1].score
+            steps += task_tuples[i][1].get_score_and_moves(self)[1]
 
             i += 1
 

@@ -1,6 +1,5 @@
 from . import Optimizer
 from .Arm import Arm
-import math
 
 class Task:
     CNTR = 0
@@ -32,8 +31,8 @@ class Task:
         steps_needed = 0
 
         for point in self.points:
-            distance_x = math.abs(current_loc_x - point.x)
-            distance_y = math.abs(current_loc_y - point.y)
+            distance_x = abs(current_loc_x - point.x)
+            distance_y = abs(current_loc_y - point.y)
 
             steps_needed += distance_x + distance_y
 
@@ -43,7 +42,7 @@ class Task:
         return (self.score, steps_needed)
 
     def get_score_per_moves(self, arm: Arm):
-        (score, moves) = self.get_score_and_moves(self, arm)
+        (score, moves) = self.get_score_and_moves(arm)
         if moves == 0:
             moves = 1
 

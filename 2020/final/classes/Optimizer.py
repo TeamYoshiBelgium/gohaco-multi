@@ -8,13 +8,13 @@ class Optimizer:
     def __init__(self, loader: Loader): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
         self.L = loader
 
-        self.tasks = []
-        self.arms = []
-        self.mountpoints = []
-
         self.timescale_blocked = []
 
     def init(self):
+        self.tasks = self.L.tasks
+        self.arms = []
+        self.mountpoints = self.L.mount_points
+
         for i in range(self.L.steps_count):
             self.timescale_blocked.append({})
 
@@ -23,15 +23,18 @@ class Optimizer:
         #     book.calc_library_scores()
         # print(self.orders[1], self.orders[1].orders[:20])
         with Pool(THREADS) as p:
-            mount_score_tuples = p.map(self.parallelCalculation, self.mountpoints)
+            mount_score_tuples = map(self.parallelCalculation, self.mountpoints)
+
+        for mp in mount_score_tuples:
+            print(mp)
 
         self.mountpoints = map(
             lambda tup: tup[1],
             sorted(mount_score_tuples, reverse=True, key=lambda mp: mp[0])
         )
 
-    def optimize(self):
 
+    def optimize(self):
         self.preprocess()
 
         self.write()

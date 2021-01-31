@@ -22,3 +22,13 @@ class MountPoint:
 
     def __str__(self):
         return "MPNT%03s(%-03s/%03s)" % (self.No, self.x, self.y)
+
+    def find_task_sorter(self, tasks):
+        results = []
+
+        for task in tasks:
+            score = task.get_score_per_moves(self)
+            result = (score, task)
+            results.append(result)
+
+        results.sort(key=lambda x: x[0], reverse=True)

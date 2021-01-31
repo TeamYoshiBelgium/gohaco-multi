@@ -65,13 +65,14 @@ class Optimizer:
             while best_mountpoint is not None and i < len(self.arms):
                 arm = self.arms[i]
                 arm.assign(best_mountpoint)
-
+                self.print_map()
                 arm.execute_all_tasks()
 
                 print("Assigned %s to %s" % (arm, best_mountpoint))
                 i += 1
 
                 best_mountpoint = self.find_best_mp(p)
+        self.print_map()
 
         # for mp in mount_score_tuples:
         #     print(mp)
@@ -88,5 +89,21 @@ class Optimizer:
     def write(self):
         pass
 
+    def print_map(self):
+        for col in self.L.map:
+            for val in col:
+                if val == 0:
+                    val = ' '
+                elif val == -1:
+                    val = '#'
+                else:
+                    val = '?'
+
+                print(val, end='')
+            print("")
+
     def analyze(self):
-        pass
+        for arm in self.arms:
+            print(arm)
+            for task in arm.tasks:
+                print ("  " + str(task))

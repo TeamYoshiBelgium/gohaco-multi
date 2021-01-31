@@ -37,7 +37,7 @@ class Task:
         for point in self.points:
             path = self._get_moves(current_loc_x, current_loc_y, point.x, point.y)
 
-            steps_needed += path.length
+            steps_needed += len(path)
 
             current_loc_x = point.x
             current_loc_y = point.y
@@ -68,8 +68,8 @@ class Task:
 
     def _get_moves(self, start_x, start_y, end_x, end_y):
         grid = Grid(matrix=self.O.L.map)
-        start = grid.node(start_x, start_y)
-        end = grid.node(end_x, end_y)
+        start = grid.node(start_y, start_x)
+        end = grid.node(end_y, end_x)
         finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
         path, runs = finder.find_path(start, end, grid)
         print('operations:', runs, 'path length:', len(path))

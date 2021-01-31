@@ -1,5 +1,6 @@
 from .Optimizer import Optimizer
 from .MountPoint import MountPoint
+from .Task import Task
 
 
 class Loader:
@@ -54,7 +55,7 @@ class Loader:
             row = file.readline().split(" ")
             x = int(row[0])
             y = int(row[1])
-            mount_point = MountPoint(self.O, id, x, y)
+            mount_point = Task(self.O, id, x, y)
             self.mount_points.append(mount_point)
 
         pass

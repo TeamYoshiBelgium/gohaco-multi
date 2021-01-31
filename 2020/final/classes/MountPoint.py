@@ -20,7 +20,7 @@ class MountPoint:
         return str(self)
 
     def __str__(self):
-        return "MPNT%03s(%-03s/%03s)" % (self.No, self.x, self.y)
+        return "MPNT%03s(%-03s/%03s,%s)" % (self.No, self.x, self.y, self.arm)
 
 
     def find_task_sorter(self, tasks):

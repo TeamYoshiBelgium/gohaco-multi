@@ -12,29 +12,32 @@ class Optimizer:
 
     def init(self):
         self.tasks = self.L.tasks
-        self.arms = []
+        self.arms = self.L.arms
         self.mountpoints = self.L.mount_points
 
         for i in range(self.L.steps_count):
             self.timescale_blocked.append({})
 
     def preprocess(self):
+        pass
         # for book in tqdm(self.books):
         #     book.calc_library_scores()
         # print(self.orders[1], self.orders[1].orders[:20])
-        with Pool(THREADS) as p:
-            mount_score_tuples = map(self.parallelCalculation, self.mountpoints)
-
-        # for mp in mount_score_tuples:
+        # print(self.mountpoints)
+        # print(list(filter(lambda mp: mp.arm is not None, self.mountpoints)))
+        # with Pool(THREADS) as p:
+        #     mount_score_tuples = map(self.parallelCalculation, filter(lambda mp: mp.arm is not None, self.mountpoints))
+        #
+        # # for mp in mount_score_tuples:
+        # #     print(mp)
+        #
+        # self.mountpoints = map(
+        #     lambda tup: tup[1],
+        #       list(sorted(mount_score_tuples, reverse=True, key=lambda mp: mp[0]))
+        # )
+        #
+        # for mp in self.mountpoints:
         #     print(mp)
-
-        self.mountpoints = map(
-            lambda tup: tup[1],
-              list(sorted(mount_score_tuples, reverse=True, key=lambda mp: mp[0]))
-        )
-
-        for mp in self.mountpoints:
-            print(mp)
 
     def find_best_tuple(self, list):
         best = None
@@ -48,8 +51,10 @@ class Optimizer:
         return best
 
     def find_best_mp(self, pool):
-        mount_score_tuples = pool.map(self.parallelCalculation, self.mountpoints)
-        return self.find_best_tuple(mount_score_tuples)
+        mount_score_tuples = map(self.parallelCalculation, list(filter(lambda mp: mp.arm is None, self.mountpoints)))
+        best = self.find_best_tuple(mount_score_tuples)
+
+        return best
 
     def optimize(self):
         with Pool(THREADS) as p:
@@ -59,16 +64,16 @@ class Optimizer:
 
             while best_mountpoint is not None and i < len(self.arms):
                 arm = self.arms[i]
+                # print(best_mountpoint)
                 arm.assign(best_mountpoint)
+                print("Assigned %s to %s" % (arm, best_mountpoint))
+                # print(best_mountpoint)
                 i += 1
 
                 best_mountpoint = self.find_best_mp(p)
 
         # for mp in mount_score_tuples:
         #     print(mp)
-
-        for mp in self.mountpoints:
-            print(mp)
 
         self.write()
         self.analyze()

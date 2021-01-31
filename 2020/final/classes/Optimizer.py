@@ -25,13 +25,16 @@ class Optimizer:
         with Pool(THREADS) as p:
             mount_score_tuples = map(self.parallelCalculation, self.mountpoints)
 
-        for mp in mount_score_tuples:
-            print(mp)
+        # for mp in mount_score_tuples:
+        #     print(mp)
 
         self.mountpoints = map(
             lambda tup: tup[1],
-            sorted(mount_score_tuples, reverse=True, key=lambda mp: mp[0])
+              list(sorted(mount_score_tuples, reverse=True, key=lambda mp: mp[0]))
         )
+
+        for mp in self.mountpoints:
+            print(mp)
 
 
     def optimize(self):

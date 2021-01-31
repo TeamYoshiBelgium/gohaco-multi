@@ -30,4 +30,4 @@ jobs:
         # Artifact name
         name: "2020-final-output"
         # Directory containing files to upload
-        path: "./2020/final/output"
+        path: "./2020/final/out"

@@ -4,6 +4,7 @@ from .Task import Task
 from .Point import Point
 from .Node import Node
 from .Arm import Arm
+import numpy as np
 
 class Loader:
     def __init__(self, filename): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
@@ -16,10 +17,12 @@ class Loader:
             self.read_mount_points(file)
             self.read_tasks(file)
 
-        self.map = [[0] * self.maps_high] * self.maps_width
+        self.map = np.zeros((self.maps_width, self.maps_high))
         for point in self.mount_points:
             self.map[point.x][point.y] = -1
 
+        for i in self.map:
+            print(i)
         self.O.init()
 
         pass

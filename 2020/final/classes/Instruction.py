@@ -24,4 +24,16 @@ class Instruction:
         return str(self)
 
     def __str__(self):
-        return "INSTR%03s(%-03s/%03s)" % (self.No, self.x, self.y)
+        return self.__move__()
+
+    def __move__(self):
+        if self.x1-self.x2 > 0:
+            return "L"
+        elif self.x1-self.x2 < 0:
+            return "R"
+        elif self.y1-self.y2 > 0:
+            return "D"
+        elif self.y1-self.y2 < 0:
+            return "U"
+        else:
+            return "W"

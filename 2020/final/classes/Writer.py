@@ -34,10 +34,10 @@ class Writer:
             file.write(str(len(self.L.O.robotic_arms)))
             file.write("\n")
             for arm in self.L.O.robotic_arms:
-                file.write(str(arm.x) + " " + str(arm.y) + " " + str(len(arm.tasks)) + " " + str(len(arm.commands)))
+                file.write(str(arm.x) + " " + str(arm.y) + " " + str(len(arm.tasks)) + " " + str(len(arm.instructions)))
                 file.write("\n")
                 for task in arm.tasks:
                     file.write(str(task.No) + " ")
                 file.write("\n")
-                for command in arm.commands:
-                    file.write(str(command) + " ")
+                for instruction in arm.instructions:
+                    file.write(str(instruction) + " ")

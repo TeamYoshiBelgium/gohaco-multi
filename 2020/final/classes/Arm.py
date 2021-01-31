@@ -38,6 +38,8 @@ class Arm:
 
         all_moves = task.get_moves(self)
 
+        self.time += len(all_moves)
+
         if len(all_moves) > 0:
             prev_x = self.x
             prev_y = self.y
@@ -52,6 +54,9 @@ class Arm:
 
                 prev_x = x
                 prev_y = y
+
+                self.x = prev_x
+                self.y = prev_y
 
         task.solved = True
 
@@ -83,20 +88,20 @@ class Arm:
                 best_score = ratio
 
         return best
-
-    def go_to_point(self, point: Point):
-        while self.x != point.x:
-            instruction = Instruction(self.O, self, self.x, self.y, self.x + np.sign(self.x - point.x), self.y)
-            self.exec_instruction(instruction)
-        while self.y != point.y:
-            instruction = Instruction(self.O, self, self.x, self.y, self.x, self.y + np.sign(self.y - point.y))
-            self.exec_instruction(instruction)
-
-    def exec_instruction(self, instruction: Instruction):
-        self.instructions.append(instruction)
-        self.x = instruction.x2
-        self.y = instruction.y2
-        self.blocked.append({'x': instruction.x2, 'y': instruction.y2})
+    #
+    # def go_to_point(self, point: Point):
+    #     while self.x != point.x:
+    #         instruction = Instruction(self.O, self, self.x, self.y, self.x + np.sign(self.x - point.x), self.y)
+    #         self.exec_instruction(instruction)
+    #     while self.y != point.y:
+    #         instruction = Instruction(self.O, self, self.x, self.y, self.x, self.y + np.sign(self.y - point.y))
+    #         self.exec_instruction(instruction)
+    #
+    # def exec_instruction(self, instruction: Instruction):
+    #     self.instructions.append(instruction)
+    #     self.x = instruction.x2
+    #     self.y = instruction.y2
+    #     self.blocked.append({'x': instruction.x2, 'y': instruction.y2})
 
     def __gt__(self, other):
         return self.No > other.No

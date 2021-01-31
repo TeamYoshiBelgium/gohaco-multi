@@ -12,9 +12,10 @@ class Optimizer:
         pass
 
     def preprocess(self):
-        for book in tqdm(self.books):
-            book.calc_library_scores()
+        # for book in tqdm(self.books):
+        #     book.calc_library_scores()
         # print(self.orders[1], self.orders[1].orders[:20])
+        pass
 
     def optimize(self):
 

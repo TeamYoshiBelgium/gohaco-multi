@@ -1,5 +1,9 @@
+from . import Optimizer
+from . import Loader
+
+
 class Writer:
-    def __init__(self, L, O):
+    def __init__(self, L: Loader, O: Optimizer):
         self.L = L
         self.O = O
 

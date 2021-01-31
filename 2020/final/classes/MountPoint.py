@@ -1,7 +1,9 @@
+from . import Optimizer
+
 class MountPoint:
     CNTR = 0
 
-    def __init__(self, optimizer, id, point):
+    def __init__(self, optimizer: Optimizer, id, point):
         self.O = optimizer
         self.id = id
         self.point = point

@@ -1,7 +1,9 @@
+from . import Optimizer
+
 class Task:
     CNTR = 0
 
-    def __init__(self, optimizer, score, points_count):
+    def __init__(self, optimizer: Optimizer, score, points_count):
         self.O = optimizer
         self.score = score
         self.points_count = points_count

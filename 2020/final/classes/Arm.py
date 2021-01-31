@@ -1,10 +1,9 @@
 from math import copysign
 
-# import numpy as np
+import numpy as np
 
 from .Instruction import Instruction
 from .Optimizer import Optimizer
-from .Task import Task
 from .Point import Point
 
 class Arm:
@@ -32,7 +31,7 @@ class Arm:
 
         mountpoint.arm = self
 
-    def exec_task(self, task: Task):
+    def exec_task(self, task):
         for point in task.points:
             self.go_to_point(point)
 

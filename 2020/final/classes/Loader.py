@@ -21,7 +21,7 @@ class Loader:
             self.read_tasks(file)
 
         self.map = [[0] * self.maps_high] * self.maps_width
-        for point in range(self.mount_points):
+        for point in self.mount_points:
             self.map[point.x][point.y] = -1
 
         for x in range(len(self.map)):

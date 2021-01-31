@@ -11,6 +11,9 @@ class MountPoint:
 
         self.No = MountPoint.CNTR
 
+    def score(self):
+
+
     def __gt__(self, other):
         return self.No > other.No
 

@@ -8,6 +8,15 @@ class Optimizer:
     def __init__(self, loader: Loader): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
         self.L = loader
 
+        self.tasks = []
+        self.arms = []
+        self.mountpoints = []
+
+        self.timescale_blocked = []
+        for i in range(loader.steps_count):
+            self.timescale_blocked.append({})
+
+
     def init(self):
         pass
 

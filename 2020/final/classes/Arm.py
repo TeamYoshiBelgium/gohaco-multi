@@ -11,6 +11,9 @@ class Arm:
 
         self.tasks = []
         self.instructions = []
+        self.blocked = []
+        for i in range(self.O.L.steps_count):
+            self.blocked.append({})
 
     def __gt__(self, other):
         return self.No > other.No

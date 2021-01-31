@@ -9,7 +9,7 @@ class Writer:
 
     def write(self):
         score = 0
-        for arm in self.L.O.robotic_arms:
+        for arm in self.L.O.arms:
             for task in arm.tasks:
                 score += task.score
 
@@ -31,9 +31,9 @@ class Writer:
         # )
 
         with open(filename, 'w+') as file:
-            file.write(str(len(self.L.O.robotic_arms)))
+            file.write(str(len(self.L.O.arms)))
             file.write("\n")
-            for arm in self.L.O.robotic_arms:
+            for arm in self.L.O.arms:
                 file.write(str(arm.x) + " " + str(arm.y) + " " + str(len(arm.tasks)) + " " + str(len(arm.instructions)))
                 file.write("\n")
                 for task in arm.tasks:

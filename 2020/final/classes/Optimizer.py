@@ -13,12 +13,10 @@ class Optimizer:
         self.mountpoints = []
 
         self.timescale_blocked = []
-        for i in range(loader.steps_count):
-            self.timescale_blocked.append({})
-
 
     def init(self):
-        pass
+        for i in range(self.L.steps_count):
+            self.timescale_blocked.append({})
 
     def preprocess(self):
         # for book in tqdm(self.books):

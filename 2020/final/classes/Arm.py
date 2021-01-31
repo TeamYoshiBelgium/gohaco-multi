@@ -28,7 +28,7 @@ class Arm:
         self.x = mountpoint.x
         self.y = mountpoint.y
 
-        self.O.L.map[self.x][self.y] = 0
+        self.O.L.map[self.x][self.y] = 1
 
         mountpoint.arm = self
 

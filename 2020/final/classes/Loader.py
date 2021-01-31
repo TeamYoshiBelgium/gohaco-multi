@@ -8,12 +8,15 @@ class Loader:
     def __init__(self, filename): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
         self.map = []
         self.filename = filename
+        self.O = Optimizer(self)  # heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim)
+
         with open(filename) as file:
-            self.O = Optimizer(self)#heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim)
 
             self.read_header_line(file)
             self.read_mount_points(file)
             self.read_tasks(file)
+
+        self.O.init()
 
         pass
 

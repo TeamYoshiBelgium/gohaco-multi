@@ -28,6 +28,8 @@ class Arm:
         self.x = mountpoint.x
         self.y = mountpoint.y
 
+        self.O.L.map[self.x][self.y] = 0
+
         mountpoint.arm = self
 
     def exec_task(self, task):
@@ -41,6 +43,8 @@ class Arm:
         if len(all_moves) > 0:
             prev_x = self.x
             prev_y = self.y
+
+            self.O.L.map[self.x][self.y] = -1
 
             for point_tup in all_moves:
                 self.instructions.append(Instruction(self.O, self, prev_x, prev_y, point_tup[0], point_tup[1]))

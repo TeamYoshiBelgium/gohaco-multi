@@ -3,26 +3,26 @@ from .Optimizer import Optimizer
 
 class Loader:
     def __init__(self, filename, heuristic_signup, heuristic_wasted): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
-        # self.books = []
-        # self.filename = filename
-        # with open(filename) as file:
-        #     self.O = Optimizer(heuristic_signup, heuristic_wasted)#heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim)
-        #
-        #     self.readHeaderLine(file)
-        #     self.readBooks(file)
-        #     self.readLibraries(file)
-        #
-        #     # for library in self.libraries:
-        #     #     print(len(library.books))
-        #
-        #     filtered_books = list(filter(
-        #         lambda book: not len(book.libraries) == 0,
-        #         self.books
-        #     ))
-        #
-        #     self.O.books = filtered_books
-        #     self.O.libraries = self.libraries
-        #     self.O.max = self.days
+        self.books = []
+        self.filename = filename
+        with open(filename) as file:
+            self.O = Optimizer(heuristic_signup, heuristic_wasted)#heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim)
+
+            self.readHeaderLine(file)
+            self.readBooks(file)
+            self.readLibraries(file)
+
+            # for library in self.libraries:
+            #     print(len(library.books))
+
+            filtered_books = list(filter(
+                lambda book: not len(book.libraries) == 0,
+                self.books
+            ))
+
+            self.O.books = filtered_books
+            self.O.libraries = self.libraries
+            self.O.max = self.days
         pass
 
     def readHeaderLine(self, file):

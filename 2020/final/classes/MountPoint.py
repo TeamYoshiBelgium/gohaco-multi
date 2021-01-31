@@ -11,9 +11,6 @@ class MountPoint:
 
         self.No = id
 
-    def score(self):
-
-
     def __gt__(self, other):
         return self.No > other.No
 

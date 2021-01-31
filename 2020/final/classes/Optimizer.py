@@ -24,21 +24,19 @@ class Optimizer:
         # for book in tqdm(self.books):
         #     book.calc_library_scores()
         # print(self.orders[1], self.orders[1].orders[:20])
+        with Pool(THREADS) as p:
+            p.map(self.parallelCalculation, self.mountpoints)
         pass
 
     def optimize(self):
 
         self.preprocess()
 
-        with Pool(THREADS) as p:
-            while True:
-                p.map(self.parallelCalculation, [])
-
         self.write()
         self.analyze()
 
-    def parallelCalculation(self, objects):
-        pass
+    def parallelCalculation(self, mountpoint):
+        mountpoint.find_tasks_sorter(self.tasks)
 
     def write(self):
         pass

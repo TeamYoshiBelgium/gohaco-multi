@@ -36,6 +36,8 @@ class Task:
 
         for point in self.points:
             path = self._get_moves(current_loc_x, current_loc_y, point.x, point.y)
+            if path is None:
+                return None
 
             steps_needed += len(path)
 
@@ -45,7 +47,11 @@ class Task:
         return (self.score, steps_needed)
 
     def get_score_per_moves(self, arm: Arm):
-        (score, moves) = self.get_score_and_moves(arm)
+        result = self.get_score_and_moves(arm)
+        if result is None:
+            return -1
+
+        (score, moves) = result
         if moves == 0:
             moves = 1
 
@@ -58,6 +64,8 @@ class Task:
 
         for point in self.points:
             result = self._get_moves(current_loc_x, current_loc_y, point.x, point.y)
+            if result is None:
+                return None
 
             path += result
 
@@ -67,12 +75,18 @@ class Task:
         return path
 
     def _get_moves(self, start_x, start_y, end_x, end_y):
+        if start_x == end_x and start_y == end_y:
+            return []
+
         grid = Grid(matrix=self.O.L.map)
         start = grid.node(start_y, start_x)
         end = grid.node(end_y, end_x)
         finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
         path, runs = finder.find_path(start, end, grid)
         print('operations:', runs, 'path length:', len(path))
+
+        if len(path) == 0:
+            return None
 
         return path
 

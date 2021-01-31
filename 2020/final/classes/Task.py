@@ -10,7 +10,7 @@ class Task:
         self.points_count = points_count
         self.points = []
 
-        self.No = Task.CNTR
+        self.No = id
 
         self.solved = False
         self.arm = None
@@ -22,4 +22,4 @@ class Task:
         return str(self)
 
     def __str__(self):
-        return "TASK%03s(%-03s/%03s)" % (self.No, self.fill, self.maxSize)
+        return "TASK%03s(%-03s/%03s)" % (self.No, self.score, self.points_count)

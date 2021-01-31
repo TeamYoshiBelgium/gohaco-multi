@@ -17,6 +17,15 @@ class Arm:
         for i in range(self.O.L.steps_count):
             self.blocked.append({})
 
+        self.mountpoint = None
+
+    def assign(self, mountpoint):
+        self.mountpoint = mountpoint
+        self.x = mountpoint.x
+        self.y = mountpoint.y
+
+        mountpoint.arm = self
+
     def __gt__(self, other):
         return self.No > other.No
 

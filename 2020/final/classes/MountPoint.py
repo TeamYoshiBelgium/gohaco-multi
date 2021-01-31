@@ -11,6 +11,8 @@ class MountPoint:
 
         self.No = id
 
+        self.arm = None
+
     def __gt__(self, other):
         return self.No > other.No
 
@@ -19,6 +21,7 @@ class MountPoint:
 
     def __str__(self):
         return "MPNT%03s(%-03s/%03s)" % (self.No, self.x, self.y)
+
 
     def find_task_sorter(self, tasks):
         results = []

@@ -39,7 +39,7 @@ class MountPoint:
         steps = 0
         score = 0
         i = 0
-        while steps < self.O.L.steps_count:
+        while steps < self.O.L.steps_count and i < len(task_tuples):
             if i > len(task_tuples):
                 return score
 

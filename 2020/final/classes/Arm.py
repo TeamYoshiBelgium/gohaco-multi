@@ -4,8 +4,6 @@ import numpy as np
 
 from .Instruction import Instruction
 from .Optimizer import Optimizer
-from .Point import Point
-from .Task import Task
 
 class Arm:
     CNTR = 0

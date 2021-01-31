@@ -2,6 +2,7 @@ from .Optimizer import Optimizer
 from .MountPoint import MountPoint
 from .Task import Task
 from .Point import Point
+from .Node import Node
 from .Arm import Arm
 
 class Loader:

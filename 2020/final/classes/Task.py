@@ -35,10 +35,9 @@ class Task:
         steps_needed = 0
 
         for point in self.points:
-            distance_x = abs(current_loc_x - point.x)
-            distance_y = abs(current_loc_y - point.y)
+            path = self._get_moves(current_loc_x, current_loc_y, point.x, point.y)
 
-            steps_needed += distance_x + distance_y
+            steps_needed += path.length
 
             current_loc_x = point.x
             current_loc_y = point.y
@@ -58,20 +57,22 @@ class Task:
         current_loc_y = arm.y
 
         for point in self.points:
-            result = self.get_moves(current_loc_x, current_loc_y, point.x, point.y)
+            result = self._get_moves(current_loc_x, current_loc_y, point.x, point.y)
 
             path += result
 
             current_loc_x = point.x
             current_loc_y = point.y
 
-    def get_moves(self, start_x, start_y, end_x, end_y):
-        grid = Grid(matrix=self.map)
+        return path
+
+    def _get_moves(self, start_x, start_y, end_x, end_y):
+        grid = Grid(matrix=self.O.L.map)
         start = grid.node(start_x, start_y)
         end = grid.node(end_x, end_y)
         finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
         path, runs = finder.find_path(start, end, grid)
         print('operations:', runs, 'path length:', len(path))
-        print(grid.grid_str(path=path, start=start, end=end))
 
         return path
+

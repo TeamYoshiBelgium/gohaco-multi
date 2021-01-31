@@ -3,11 +3,12 @@ from . import Optimizer
 class Arm:
     CNTR = 0
 
-    def __init__(self, optimizer: Optimizer, x, y):
+    def __init__(self, optimizer: Optimizer, id, x, y):
         self.O = optimizer
         self.x = x
         self.y = y
-        self.No = Arm.CNTR
+        self.id = id
+        self.No = id
 
         self.tasks = []
         self.instructions = []

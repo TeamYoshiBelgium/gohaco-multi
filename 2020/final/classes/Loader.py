@@ -2,6 +2,7 @@ from .Optimizer import Optimizer
 from .MountPoint import MountPoint
 from .Task import Task
 from .Point import Point
+from .Arm import Arm
 
 
 class Loader:
@@ -29,6 +30,12 @@ class Loader:
         self.mount_points_count = int(row[3])
         self.tasks_count = int(row[4])
         self.steps_count = int(row[5])
+
+        self.arms = []
+        for id in range(self.arms_count):
+            arm = Arm(self.O, id, None, None)
+            self.arms.append(arm)
+
         pass
 
     def read_mount_points(self, file):

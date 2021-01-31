@@ -1,6 +1,6 @@
 from math import copysign
 
-# import numpy as np
+import numpy as np
 
 from .Instruction import Instruction
 from .Optimizer import Optimizer
@@ -25,6 +25,8 @@ class Arm:
 
         self.mountpoint = None
 
+        self.time = 0
+
     def assign(self, mountpoint):
         self.mountpoint = mountpoint
         self.x = mountpoint.x
@@ -38,6 +40,32 @@ class Arm:
 
         task.solved = True
         self.tasks.append(task)
+
+    def execute_all_tasks(self):
+        next_task = self.find_best_next_task()
+
+        while next_task is not None:
+            self.exec_task(next_task)
+
+            next_task = self.find_best_next_task()
+
+    def find_best_next_task(self):
+        best = None
+        best_score = -99999
+        
+        for task in self.O.tasks:
+            (score, moves) = task.get_score_and_moves(self)
+
+            if self.time + moves > self.O.L.steps_count:
+                continue
+
+            ratio = score / max(1, moves)
+
+            if ratio > best_score:
+                best = task
+                best_score = ratio
+
+        return best
 
     def go_to_point(self, point: Point):
         while self.x != point.x:

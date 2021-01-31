@@ -64,10 +64,11 @@ class Optimizer:
 
             while best_mountpoint is not None and i < len(self.arms):
                 arm = self.arms[i]
-                # print(best_mountpoint)
                 arm.assign(best_mountpoint)
+
+                arm.execute_all_tasks()
+
                 print("Assigned %s to %s" % (arm, best_mountpoint))
-                # print(best_mountpoint)
                 i += 1
 
                 best_mountpoint = self.find_best_mp(p)

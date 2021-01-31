@@ -28,7 +28,7 @@ class Arm:
         self.x = mountpoint.x
         self.y = mountpoint.y
 
-        self.O.L.map[self.x][self.y] = 0
+        self.O.L.map[self.y][self.x] = 1
 
         mountpoint.arm = self
 
@@ -44,7 +44,7 @@ class Arm:
             prev_x = self.x
             prev_y = self.y
 
-            self.O.L.map[self.x][self.y] = -1
+            self.O.L.map[self.y][self.x] = 0
 
             for point_tup in all_moves:
                 self.instructions.append(Instruction(self.O, self, prev_x, prev_y, point_tup[0], point_tup[1]))
@@ -52,7 +52,7 @@ class Arm:
                 x = point_tup[0]
                 y = point_tup[1]
 
-                self.O.L.map[x][y] = -1
+                self.O.L.map[y][x] = 0
 
                 prev_x = x
                 prev_y = y

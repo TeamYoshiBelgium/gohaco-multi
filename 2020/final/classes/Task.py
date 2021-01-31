@@ -79,19 +79,20 @@ class Task:
         if start_x == end_x and start_y == end_y:
             return []
 
-        start_value = self.O.L.map[start_x][start_y]
-        end_value = self.O.L.map[start_x][start_y]
-        self.O.L.map[start_x][start_y] = 1
-        self.O.L.map[start_x][start_y] = 1
+        start_value = self.O.L.map[start_y][start_x]
+        end_value = self.O.L.map[start_y][start_x]
+        self.O.L.map[start_y][start_x] = 1
+        self.O.L.map[start_y][start_x] = 1
 
         grid = Grid(matrix=self.O.L.map)
-        start = grid.node(start_y, start_x)
-        end = grid.node(end_y, end_x)
+        start = grid.node(start_x, start_y)
+        end = grid.node(end_x, end_y)
         finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
         path, runs = finder.find_path(start, end, grid)
+        grid.cleanup()
 
-        self.O.L.map[start_x][start_y] = start_value
-        self.O.L.map[start_x][start_y] = end_value
+        self.O.L.map[start_y][start_x] = start_value
+        self.O.L.map[start_y][start_x] = end_value
 
         if len(path) == 0:
             return None

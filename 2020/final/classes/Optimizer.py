@@ -90,10 +90,12 @@ class Optimizer:
         pass
 
     def print_map(self):
-        for col in self.L.map:
-            for val in col:
-                if val == 0:
+        for row in self.L.map:
+            for val in row:
+                if val == 1:
                     val = ' '
+                elif val == 0:
+                    val = '#'
                 elif val == -1:
                     val = '#'
                 else:

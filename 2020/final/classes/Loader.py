@@ -17,12 +17,14 @@ class Loader:
             self.read_mount_points(file)
             self.read_tasks(file)
 
-        self.map = np.ones((self.maps_width, self.maps_high))
-        for point in self.mount_points:
-            self.map[point.x][point.y] = -1
+        # self.map = np.ones((self.maps_width, self.maps_high))
+        self.map = []
+        for i in range(self.maps_high):
+            self.map.append([1 for j in range(self.maps_width)])
 
-        for i in self.map:
-            print(i)
+        for point in self.mount_points:
+            self.map[point.y][point.x] = -1
+
         self.O.init()
 
         pass

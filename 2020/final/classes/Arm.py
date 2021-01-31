@@ -74,7 +74,11 @@ class Arm:
             if task.solved is True:
                 continue
 
-            (score, moves) = task.get_score_and_moves(self)
+            result = task.get_score_and_moves(self)
+            if result is None:
+                continue
+
+            (score, moves) = result
 
             if self.time + moves > self.O.L.steps_count:
                 continue

@@ -5,6 +5,7 @@ import numpy as np
 from .Instruction import Instruction
 from .Optimizer import Optimizer
 from .Point import Point
+from .Task import Task
 
 class Arm:
     CNTR = 0
@@ -18,13 +19,11 @@ class Arm:
 
         self.tasks: [Task] = []
         self.instructions: [Instruction] = []
-        self.blocked: [{x: int, y: int}] = []
-        for i in range(self.O.L.steps_count):
-            self.blocked.append({})
 
         self.mountpoint = None
 
         self.time = 0
+        self.score = 0
 
     def assign(self, mountpoint):
         self.mountpoint = mountpoint
@@ -34,11 +33,27 @@ class Arm:
         mountpoint.arm = self
 
     def exec_task(self, task):
-        for point in task.points:
-            self.go_to_point(point)
+        self.score += task.score
+        self.tasks.append(task)
+
+        all_moves = task.get_moves(self)
+
+        if len(all_moves) > 0:
+            prev_x = self.x
+            prev_y = self.y
+
+            for point_tup in all_moves:
+                self.instructions.append(Instruction(self.O, self, prev_x, prev_y, point_tup[0], point_tup[1]))
+
+                x = point_tup[0]
+                y = point_tup[1]
+
+                self.O.L.map[x][y] = -1
+
+                prev_x = x
+                prev_y = y
 
         task.solved = True
-        self.tasks.append(task)
 
     def execute_all_tasks(self):
         next_task = self.find_best_next_task()
@@ -53,6 +68,9 @@ class Arm:
         best_score = -99999
         
         for task in self.O.tasks:
+            if task.solved is True:
+                continue
+
             (score, moves) = task.get_score_and_moves(self)
 
             if self.time + moves > self.O.L.steps_count:

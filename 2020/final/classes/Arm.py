@@ -29,7 +29,6 @@ class Arm:
         self.y = mountpoint.y
 
         self.O.L.map[self.y][self.x] = 1
-
         mountpoint.arm = self
 
     def exec_task(self, task):

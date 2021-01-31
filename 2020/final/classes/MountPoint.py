@@ -3,12 +3,13 @@ from . import Optimizer
 class MountPoint:
     CNTR = 0
 
-    def __init__(self, optimizer: Optimizer, id, point):
+    def __init__(self, optimizer: Optimizer, id, x, y):
         self.O = optimizer
         self.id = id
-        self.point = point
+        self.x = x
+        self.y = y
 
-        self.No = MountPoint.CNTR
+        self.No = id
 
     def __gt__(self, other):
         return self.No > other.No
@@ -17,4 +18,4 @@ class MountPoint:
         return str(self)
 
     def __str__(self):
-        return "MPNT%03s(%-03s/%03s)" % (self.No, self.point.x, self.point.y)
+        return "MPNT%03s(%-03s/%03s)" % (self.No, self.x, self.y)

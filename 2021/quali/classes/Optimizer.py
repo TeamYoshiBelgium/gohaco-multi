@@ -1,6 +1,7 @@
 from tqdm import tqdm
 from multiprocessing import Pool
 from . import Loader
+from .Writer import Writer
 
 THREADS = 6
 
@@ -52,8 +53,6 @@ class Optimizer:
             self.first_street_usage.append((key, street_first_usage_dict[key]))
 
         self.first_street_usage.sort(key=lambda tup: tup[1], reverse=True)
-
-
         # print(self.orders[1], self.orders[1].orders[:20])
 
     def optimize(self):
@@ -62,13 +61,13 @@ class Optimizer:
         self.duration = 100000
         self.updateGlobalState()
 
-        for intersection in self.intersections:
-            print("%s %s" % (intersection, intersection.calcWaitingTime(intersection.trafficLightStreetTuples)))
-            (score, mutation) = intersection.generateMutationAndReturnScore()
-            print("  %s %s" % (score, mutation.type))
-
-        for car in self.cars:
-            print("%s %s %s\n\r  %s\n\r  %s" % (car, car.finished, car.finishTime, car.doneStreets, car.streets))
+        # for intersection in self.intersections:
+        #     print("%s %s" % (intersection, intersection.calcWaitingTime(intersection.trafficLightStreetTuples)))
+        #     (score, mutation) = intersection.generateMutationAndReturnScore()
+        #     # print("  %s %s" % (score, mutation.type))
+        #
+        # for car in self.cars:
+        #     print("%s %s %s\n\r  %s\n\r  %s" % (car, car.finished, car.finishTime, car.doneStreets, car.streets))
 
         # self.duration = 10
         self.updateGlobalState()
@@ -76,10 +75,13 @@ class Optimizer:
         # for car in self.cars:
         #     print("%s %s %s\n\r  %s\n\r  %s" % (car, car.finished, car.finishTime, car.doneStreets, car.streets))
 
+        W = Writer(self.L, self)
+
+
         with Pool(THREADS) as p:
             while True:
-                self.write()
-                mutations = p.map(self.parallelCalculation, self.intersections)
+                W.write()
+                mutations = map(self.parallelCalculation, self.intersections)
                 mutations = filter(lambda score: score[0] > 0,sorted(mutations, key=lambda tup: tup[0], reverse=True))
 
                 for mutation in mutations:

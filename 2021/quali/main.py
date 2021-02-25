@@ -25,8 +25,7 @@ def execute_file(file_name, swap_vs_increment_heuristic, increment_decrement_heu
 
     L.O.optimize()
 
-    W = Writer(L, L.O)
-    W.write()
+
 
 if __name__ == '__main__':
     main()

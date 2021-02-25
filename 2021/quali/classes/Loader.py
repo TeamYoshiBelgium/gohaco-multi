@@ -26,9 +26,11 @@ class Loader:
                     intersections[street.end].append(street.name)
 
             self.O.intersections = []
+            self.O.intersections_dict = dict()
             for key in intersections.keys():
                 intersection = Intersection(self.O, key, intersections[key])
                 self.O.intersections.append(intersection)
+                self.O.intersections_dict[key] = intersection
 
             self.O.streets_dict = dict()
             for street in self.O.streets:
@@ -38,6 +40,13 @@ class Loader:
                 car.streets_obj = []
                 for street in car.streets:
                     car.streets_obj.append(self.O.streets_dict[street])
+
+                car.streets_ids = car.streets
+                car.streets = car.streets_obj
+
+            for street in self.O.streets:
+                street.start_intersection = self.O.intersections_dict[street.start]
+                street.end_intersection = self.O.intersections_dict[street.end]
 
         pass
 

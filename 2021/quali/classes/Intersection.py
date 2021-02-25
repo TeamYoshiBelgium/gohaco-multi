@@ -17,6 +17,13 @@ class Mutation(ABC):
     def getTrafficLightStreetTuples(self):
         pass
 
+    def __str__(self):
+        return 'MUT(%s,%s)' % (self.type, self.intersection)
+
+    def __repr__(self):
+        return str(self)
+
+
 class SwapMutation(Mutation):
     def __init__(self, intersection):
         self.cached = None
@@ -54,8 +61,8 @@ class ChangeWeightMutation(Mutation):
         randIx = random.randint(0, len(newList) - 1)
         randEl = newList[randIx]
 
-        if randEl[0] == 0:
-            newList[randIx] = (1, randEl[1])
+        if randEl[0] == 1:
+            newList[randIx] = (randEl[0] + 1, randEl[1])
         else:
             if random.random() < self.intersection.O.increment_decrement_heuristic:
                 newList[randIx] = (randEl[0] + 1, randEl[1])
@@ -141,7 +148,7 @@ class Intersection:
         mutation = self.generateMutation()
         score = self.mutationScore(mutation)
 
-        return (score, mutation)
+        return (score[0] - score[1], mutation, score[0], score[1])
 
     def mutationScore(self, mutation):
         newTrafficLights = mutation.getTrafficLightStreetTuples()
@@ -149,7 +156,7 @@ class Intersection:
         oldWait = self.calcWaitingTime(self.trafficLightStreetTuples)
         newWait = self.calcWaitingTime(newTrafficLights)
 
-        return oldWait - newWait
+        return (oldWait, newWait)
 
     def calcWaitingTime(self, trafficLights):
         sortedArrivals = {}

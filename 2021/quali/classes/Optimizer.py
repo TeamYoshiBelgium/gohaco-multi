@@ -81,10 +81,15 @@ class Optimizer:
             while True:
                 W.write()
                 mutations = map(self.parallelCalculation, self.intersections)
-                mutations = filter(lambda score: score[0] > 0,sorted(mutations, key=lambda tup: tup[0], reverse=True))
+                mutations = list(sorted(filter(lambda score: score[0] > 0, mutations), key=lambda tup: tup[0], reverse=True))
 
                 for mutation in mutations:
+                    # print(mutation)
+                    # print(mutation[1].intersection.trafficLightStreetTuples)
+                    # print(mutation[1].getTrafficLightStreetTuples())
                     mutation[1].intersection.trafficLightStreetTuples = mutation[1].getTrafficLightStreetTuples()
+
+                print("")
 
                 self.updateGlobalState()
 
@@ -98,6 +103,7 @@ class Optimizer:
             intersection.currentTimeSlot = 0
             intersection.maxTime = sum(map(lambda tup: tup[0], intersection.trafficLightStreetTuples))
             intersection.carArrivals = {}
+
             for street in intersection.streets:
                 intersection.carArrivals[street] = []
 

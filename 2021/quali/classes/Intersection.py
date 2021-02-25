@@ -42,8 +42,37 @@ class Intersection:
         for street in self.streets:
             self.trafficLightStreetTuples.append((1, street))
 
+        self.currentCars = []
+        self.currentTimeSlot = 0
+        self.maxTime = 0
+
+    # def calcScore(self, trafficLightStreetTuples):
+
+    def getCurrentStreet(self):
+        timeSlot = self.currentTimeSlot
+        for tup in self.trafficLightStreetTuples:
+            if timeSlot - tup[0] < 0:
+                return tup[1]
+            else:
+                timeSlot -= tup[0]
+
+    def driveNextCar(self):
+        street = self.getCurrentStreet()
+
+        for car in self.currentCars:
+            if car.blockedTill > self.O.L.currentT:
+                continue
+            if car.finished is True:
+                continue
+
+            if car.currentStreet == street:
+                car.driveIntersection()
+                self.currentCars.remove(car)
+                return car
+
     def mutationScore(self):
-        pass
+        mutation = self.generateMutation()
+
 
     def generateMutation(self):
         if random.random() > self.O.swap_vs_increment_heuristic:

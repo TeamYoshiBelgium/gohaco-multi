@@ -9,6 +9,30 @@ class Car:
         self.No = Car.CNTR
         Car.CNTR += 1
 
+        self.currentStreetIndex = 0
+
+    def driveIntersection(self):
+        # car.currentIntersection = car.streets[0].end_intersection
+        # car.currentIntersection.currentCars.append(car)
+        # car.currentStreetIndex = 0
+        # car.nextStreet = car.streets[1]
+
+        self.currentStreetIndex += 1
+        if self.currentStreetIndex >= len(self.streets):
+            self.finished = True
+
+        self.currentStreet = self.streets[self.currentStreetIndex]
+        if self.currentStreetIndex + 1 < len(self.streets):
+            self.nextStreet = self.streets[self.currentStreetIndex + 1]
+            self.currentIntersection = self.nextStreet.end_intersection
+            self.currentIntersection.currentCars.append(self)
+        else:
+            self.nextStreet = None
+
+        self.blockedT = self.O.currentT + self.currentStreet.time
+
+
+
     def __str__(self):
         return 'CAR%i(%i %s)' % (self.id, self.score, str(self.done)[0])
 

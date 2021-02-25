@@ -12,6 +12,7 @@ class Writer:
         for car in self.L.O.cars:
             score += car.get_score()
 
+        print(self.L.filename + " " + str(score))
         filename = self.L.filename.replace(".txt", "." + str(score) + ".out.txt").replace("in/", "out/")
         # filename = filename.replace(".out", ".NEW.out")
         # filename = filename.replace(".out",

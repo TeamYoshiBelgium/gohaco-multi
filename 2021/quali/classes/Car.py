@@ -26,7 +26,7 @@ class Car:
 
         self.doneStreets.append(self.nextStreet)
 
-        print(str(self) + ", OT" + str(self.O.currentT) + ", B" + str(self.blockedT) + "," + str(self.nextStreet.time))
+        # print(str(self) + ", OT" + str(self.O.currentT) + ", B" + str(self.blockedT) + "," + str(self.nextStreet.time))
 
         self.blockedT = self.O.currentT + self.nextStreet.time
 

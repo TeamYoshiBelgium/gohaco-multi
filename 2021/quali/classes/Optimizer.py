@@ -29,7 +29,7 @@ class Optimizer:
         for key in street_usage_dict.keys():
             self.street_usage.append((key, street_usage_dict[key]))
 
-        self.street_usage.sort(key=lambda tup: tup[1])
+        self.street_usage.sort(key=lambda tup: tup[1], reverse=True)
 
 
         # print(self.orders[1], self.orders[1].orders[:20])

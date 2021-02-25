@@ -49,6 +49,15 @@ class Intersection:
         for street in self.streets:
             self.trafficLightStreetTuples.append((1, street))
 
+        # street_usage = []
+        # for street in self.streets:
+        #     street_usage.append((street.name, self.O.street_usage_dict[street.name]))
+        #
+        # street_usage.sort(key=lambda tup: tup[1], reverse=True)
+        #
+        # for street in street_usage:
+        #     self.trafficLightStreetTuples.append((1, street))
+
     def mutationScore(self):
         pass
 

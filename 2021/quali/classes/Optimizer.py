@@ -31,12 +31,13 @@ class Optimizer:
         # print(self.orders[1], self.orders[1].orders[:20])
 
     def optimize(self):
-
         self.preprocess()
 
+        self.duration = 10
         self.updateGlobalState()
+
         for car in self.cars:
-            print("%s %s %s" % (car, car.finished, car.finishTime))
+            print("%s %s %s\n\r  %s\n\r  %s" % (car, car.finished, car.finishTime, car.doneStreets, car.streets))
 
         # with Pool(THREADS) as p:
         #     while True:
@@ -61,15 +62,18 @@ class Optimizer:
             car.currentStreet = car.streets[0]
             car.nextStreet = car.streets[1]
             car.finished = False
+            car.doneStreets = [car.currentStreet]
 
         for i in range(self.duration):
             self.currentT = i
+
             for intersection in self.intersections:
                 intersection.currentTimeSlot += 1
                 if intersection.currentTimeSlot >= intersection.maxTime:
                     intersection.currentTimeSlot = 0
 
                 car = intersection.driveNextCar()
+                # print(car)
 
 
 

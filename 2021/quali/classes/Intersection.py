@@ -48,7 +48,7 @@ class Intersection:
 
     # def calcScore(self, trafficLightStreetTuples):
 
-    def getCurrentStreet(self):
+    def getCurrentGreenStreet(self):
         timeSlot = self.currentTimeSlot
         for tup in self.trafficLightStreetTuples:
             if timeSlot - tup[0] < 0:
@@ -57,15 +57,16 @@ class Intersection:
                 timeSlot -= tup[0]
 
     def driveNextCar(self):
-        street = self.getCurrentStreet()
+        greenStreet = self.getCurrentGreenStreet()
 
         for car in self.currentCars:
             if car.blockedTill > self.O.currentT:
                 continue
+
             if car.finished is True:
                 continue
 
-            if car.currentStreet == street:
+            if car.nextStreet == greenStreet:
                 car.driveIntersection()
                 self.currentCars.remove(car)
                 return car
@@ -86,7 +87,7 @@ class Intersection:
         self.carsThatPassThrough.append(car)
 
     def __str__(self):
-        return 'IS%i(%s)' % (self.id)
+        return 'IS(%i)' % (self.id)
 
     def __repr__(self):
         return str(self)

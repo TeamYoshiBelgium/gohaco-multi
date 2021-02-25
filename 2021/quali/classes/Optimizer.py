@@ -38,7 +38,7 @@ class Optimizer:
                 street_first_usage_dict[first_street.name] = 1
 
             for street in car.streets:
-                street.end_intersection.addCar(car)
+                street.end_intersection.addStartCar(car)
 
                 if street.name in street_usage_dict:
                     street_usage_dict[street.name] += 1
@@ -83,12 +83,12 @@ class Optimizer:
         for car in self.cars:
             car.blockedTill = 0
             car.currentIntersection = car.streets[0].end_intersection
-            car.currentIntersection.currentCars.append(car)
             car.currentStreetIndex = 0
             car.currentStreet = car.streets[0]
             car.nextStreet = car.streets[1]
             car.finished = False
             car.doneStreets = [car.currentStreet]
+            car.currentIntersection.addNewCar(car, 0, car.currentStreet)
 
         for i in range(self.duration):
             self.currentT = i

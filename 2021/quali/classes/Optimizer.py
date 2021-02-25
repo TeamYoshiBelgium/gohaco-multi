@@ -70,6 +70,12 @@ class Optimizer:
         for car in self.cars:
             print("%s %s %s\n\r  %s\n\r  %s" % (car, car.finished, car.finishTime, car.doneStreets, car.streets))
 
+        # self.duration = 10
+        self.updateGlobalState()
+
+        # for car in self.cars:
+        #     print("%s %s %s\n\r  %s\n\r  %s" % (car, car.finished, car.finishTime, car.doneStreets, car.streets))
+
         # with Pool(THREADS) as p:
         #     while True:
         #         p.map(self.parallelCalculation, [])

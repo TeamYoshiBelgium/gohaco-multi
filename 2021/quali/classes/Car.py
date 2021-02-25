@@ -26,7 +26,7 @@ class Car:
 
         self.doneStreets.append(self.nextStreet)
 
-        print(str(self) + ", OT" + str(self.O.currentT) + ", B" + str(self.blockedT) + "," + str(self.nextStreet.time))
+        # print(str(self) + ", OT" + str(self.O.currentT) + ", B" + str(self.blockedT) + "," + str(self.nextStreet.time))
 
         self.blockedT = self.O.currentT + self.nextStreet.time
 
@@ -67,8 +67,8 @@ class Car:
         return total_time
 
     def get_score(self):
-        if self.does_finish():
-            return 1000 + self.O.duration - self.drive_time
+        if self.finished and self.finishTime <= self.O.duration:
+            return self.O.score + self.O.duration - self.finishTime
         else:
             return 0
 

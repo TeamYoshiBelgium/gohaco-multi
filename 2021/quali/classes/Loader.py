@@ -1,70 +1,58 @@
 from .Optimizer import Optimizer
+from .Street import Street
+from .Car import Car
 
 
 class Loader:
     def __init__(self, filename, heuristic_signup, heuristic_wasted): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
-        # self.books = []
-        # self.filename = filename
-        # with open(filename) as file:
-        #     self.O = Optimizer(heuristic_signup, heuristic_wasted)#heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim)
-        #
-        #     self.readHeaderLine(file)
-        #     self.readBooks(file)
-        #     self.readLibraries(file)
-        #
-        #     # for library in self.libraries:
-        #     #     print(len(library.books))
-        #
-        #     filtered_books = list(filter(
-        #         lambda book: not len(book.libraries) == 0,
-        #         self.books
-        #     ))
-        #
-        #     self.O.books = filtered_books
-        #     self.O.libraries = self.libraries
-        #     self.O.max = self.days
-        pass
+        self.filename = filename
+        with open(filename) as file:
+            self.O = Optimizer(heuristic_signup, heuristic_wasted)#heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim)
 
-    def readHeaderLine(self, file):
-        # row = file.readline().split(" ")
-        #
-        # self.books_length = int(row[0])
-        # self.librariees = int(row[1])
-        # self.days = int(row[2])
-        pass
-
-    def readBooks(self, file):
-        # row = file.readline().split(" ")
-        # self.book_scores = []
-        # book_id = 0
-        # for book_score_str in row:
-        #     book_id += 1
-        #     book_score = int(book_score_str)
-        #     self.book_scores.append(book_score)
-        #     book = Book(self.O, book_id, book_score)
-        #     self.books.append(book)
+            self.read_header_line(file)
+            self.O.streets = self.read_streets(file)
+            self.O.cars = self.read_cars(file)
 
         pass
 
-    def readLibraries(self, file):
-        # self.libraries = []
-        # id = 0
-        #
-        # for id in range(self.librariees):
-        #     row = file.readline()
-        #     splitted = row.split(" ")
-        #     books_count = int(splitted[0])
-        #     signup_time = int(splitted[1])
-        #     books_day = int(splitted[2])
-        #
-        #     next_row = file.readline().split(" ")
-        #     books = []
-        #     library = Library(self.O, id, books_count, signup_time, books_day, books)
-        #     for book_id in next_row:
-        #         book = self.books[int(book_id)]
-        #         books.append(book)
-        #         book.addLibrary(library)
-        #     id += 1
-        #
-        #     self.libraries.append(library)
+    def read_header_line(self, file):
+        row = file.readline().split(" ")
+
+        self.O.duration = int(row[0])
+        self.O.intersections = int(row[1])
+        self.O.streets = int(row[2])
+        self.O.cars = int(row[3])
+        self.O.score = int(row[1])
         pass
+
+    def read_streets(self, file):
+        streets = []
+
+        for i in range(self.streets):
+            row = file.readline()
+            splitted = row.split(" ")
+            start = int(splitted[0])
+            end = int(splitted[1])
+            name = splitted[2]
+            time = int(splitted[3])
+
+            street = Street(self.O, name, start, end, time)
+
+            streets.append(street)
+
+        return streets
+
+    def read_cars(self, file):
+        cars = []
+
+        for i in range(self.streets):
+            row = file.readline()
+            splitted = row.split(" ")
+            count = int(splitted[0])
+            streets = splitted[1:]
+
+            car = Car(self.O, count, streets)
+
+            cars.append(car)
+
+        return cars

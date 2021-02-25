@@ -1,7 +1,10 @@
 class Street:
-    def __init__(self, O, name):
+    def __init__(self, O, name, start, end, time):
         self.O = O
         self.name = name
+        self.start = start
+        self.end = end
+        self.time = time
 
     def __str__(self):
         return 'STRT%i(%s)' % (self.name)

@@ -57,7 +57,7 @@ class Loader:
         self.O.intersections = int(row[1])
         self.O.streets = int(row[2])
         self.O.cars = int(row[3])
-        self.O.score = int(row[1])
+        self.O.score = int(row[4])
         pass
 
     def read_streets(self, file):

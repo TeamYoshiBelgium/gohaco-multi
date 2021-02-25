@@ -1,7 +1,7 @@
 
 import random
 from enum import Enum
-from abc import ABC,abstractmethod
+from abc import ABC, abstractmethod
 
 class MutationType(Enum):
     SWAP = 1
@@ -21,14 +21,21 @@ class SwapMutation(Mutation):
         super(SwapMutation, self).__init__(MutationType.SWAP, intersection)
 
     def getTrafficLightStreetTuples(self):
-        pass
+        first = random.randint(0, len(self.intersection.trafficLightStreetTuples))
+        second = random.randint(0, len(self.intersection.trafficLightStreetTuples))
+
+        tuple = self.intersection.trafficLightStreetTuples[first]
+        self.intersection.trafficLightStreetTuples[first] = self.intersection.trafficLightStreetTuples[second]
+        self.intersection.trafficLightStreetTuples[second] = tuple
 
 class ChangeWeightMutation(Mutation):
     def __init__(self, intersection):
         super(ChangeWeightMutation, self).__init__(MutationType.CHANGE_WEIGHT, intersection)
 
     def getTrafficLightStreetTuples(self):
-        pass
+        first = random.randint(0, len(self.intersection.trafficLightStreetTuples))
+
+        self.intersection.trafficLightStreetTuples[first][0] = random.randint(1, self.intersection.O.duration)
 
 class Intersection:
     def __init__(self, O, id, streets):

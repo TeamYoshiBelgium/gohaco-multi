@@ -45,7 +45,7 @@ class Loader:
     def read_cars(self, file):
         cars = []
 
-        for i in range(self.streets):
+        for i in range(self.O.cars):
             row = file.readline()
             splitted = row.split(" ")
             count = int(splitted[0])

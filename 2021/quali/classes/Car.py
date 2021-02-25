@@ -12,7 +12,7 @@ class Car:
         self.currentStreetIndex = 0
         self.finished = False
         self.finishTime = -1
-
+        self.blockedT = 0
         self.doneStreets = [self.streets[0]]
 
     def driveIntersection(self):
@@ -22,6 +22,12 @@ class Car:
         # car.nextStreet = car.streets[1]
 
         self.doneStreets.append(self.nextStreet)
+
+        print(str(self) + ", OT" + str(self.O.currentT) + ", B" + str(self.blockedT) + "," + str(self.nextStreet.time))
+
+        self.blockedT = self.O.currentT + self.nextStreet.time
+
+
         self.currentStreetIndex += 1
 
         self.currentStreet = self.streets[self.currentStreetIndex]
@@ -32,10 +38,9 @@ class Car:
             self.nextStreet = self.streets[self.currentStreetIndex + 1]
         else:
             self.finished = True
-            self.finishTime = self.O.currentT + self.currentStreet.time
+            self.finishTime = self.blockedT + self.nextStreet.time
             self.nextStreet = None
 
-        self.blockedT = self.O.currentT + self.currentStreet.time
 
     def __str__(self):
         return 'CAR%i' % (self.No)

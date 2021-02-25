@@ -60,7 +60,7 @@ class Intersection:
         greenStreet = self.getCurrentGreenStreet()
 
         for car in self.currentCars:
-            if car.blockedTill > self.O.currentT:
+            if car.blockedT > self.O.currentT:
                 continue
 
             if car.finished is True:

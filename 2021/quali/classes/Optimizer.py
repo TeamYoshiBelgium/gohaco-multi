@@ -66,6 +66,7 @@ class Optimizer:
 
         for i in range(self.duration):
             self.currentT = i
+            print(i)
 
             for intersection in self.intersections:
                 intersection.currentTimeSlot += 1

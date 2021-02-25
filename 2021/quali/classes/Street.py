@@ -7,7 +7,7 @@ class Street:
         self.time = time
 
     def __str__(self):
-        return 'STRT(%s)' % (self.name)
+        return 'STRT(%s,%i)' % (self.name, self.time)
 
     def __repr__(self):
         return str(self)

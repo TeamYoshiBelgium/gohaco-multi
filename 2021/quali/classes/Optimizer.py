@@ -35,29 +35,34 @@ class Optimizer:
         self.preprocess()
 
         self.updateGlobalState()
+        for car in self.cars:
+            print("%s %s %s" % (car, car.finished, car.finishTime))
 
-        with Pool(THREADS) as p:
-            while True:
-                p.map(self.parallelCalculation, [])
+        # with Pool(THREADS) as p:
+        #     while True:
+        #         p.map(self.parallelCalculation, [])
 
         self.write()
         self.analyze()
 
     def updateGlobalState(self):
+        self.currentT = 0
+
         for intersection in self.intersections:
             intersection.currentCars = []
             intersection.currentTimeSlot = 0
-            intersection.maxTime = sum(map(intersection.trafficLightStreetTuples, lambda tup: tup[0]))
+            intersection.maxTime = sum(map(lambda tup: tup[0], intersection.trafficLightStreetTuples))
 
         for car in self.cars:
             car.blockedTill = 0
             car.currentIntersection = car.streets[0].end_intersection
             car.currentIntersection.currentCars.append(car)
             car.currentStreetIndex = 0
+            car.currentStreet = car.streets[0]
             car.nextStreet = car.streets[1]
             car.finished = False
 
-        for i in range(self.O.duration):
+        for i in range(self.duration):
             self.currentT = i
             for intersection in self.intersections:
                 intersection.currentTimeSlot += 1

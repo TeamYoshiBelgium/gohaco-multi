@@ -18,9 +18,9 @@ def main():
 
 def execute_file(file_name):
     S = Settings()
+    print("Script v%s started [%s]" % (S.version, file_name))
 
     L = Loader(file_name)
-    print("Script v%s started [%s]" % (S.version, L.filename))
 
     L.O.optimize()
 

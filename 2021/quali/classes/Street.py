@@ -8,9 +8,9 @@ class Street:
 
     def __repr__(self):
         return str(self)
-
-    def __gt__(self, other):
-        return self.No > other.No
-
-    def __lt__(self, other):
-        return self.No > other.No
+    #
+    # def __gt__(self, other):
+    #     return self.No > other.No
+    #
+    # def __lt__(self, other):
+    #     return self.No > other.No

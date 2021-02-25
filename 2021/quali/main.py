@@ -10,10 +10,11 @@ def main():
         execute_file(sys.argv[1])
     else:
         execute_file("in/a.txt")
-        # execute_file("in/b_single_arm.txt")
-        # execute_file("in/d_tight_schedule.txt")
-        # execute_file("in/e_dense_workspace.txt")
-        # execute_file("in/f_decentralized.txt")
+        # execute_file("in/b.txt")
+        # execute_file("in/c.txt")
+        # execute_file("in/d.txt")
+        # execute_file("in/e.txt")
+        # execute_file("in/f.txt")
 
 
 def execute_file(file_name):

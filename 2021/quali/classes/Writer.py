@@ -35,7 +35,8 @@ class Writer:
             for intersection in self.L.O.intersections:
                 file.write(str(intersection.id))
                 file.write("\n")
-                file.write(str(len(intersection.streets)))
-                for street in intersection.streets:
-                    file.write(str(street.name) + " " + str(street.green))
+                file.write(str(len(intersection.trafficLightStreetTuples)))
                 file.write("\n")
+                for tuple in intersection.trafficLightStreetTuples:
+                    file.write(str(tuple[1].name) + " " + str(tuple[0]))
+                    file.write("\n")

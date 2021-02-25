@@ -103,8 +103,6 @@ class Optimizer:
                 # print(car)
 
 
-
-
     def parallelCalculation(self, objects):
         pass
 

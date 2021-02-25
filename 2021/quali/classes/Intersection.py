@@ -24,18 +24,36 @@ class SwapMutation(Mutation):
         first = random.randint(0, len(self.intersection.trafficLightStreetTuples))
         second = random.randint(0, len(self.intersection.trafficLightStreetTuples))
 
+        if first == second:
+            second = (first + 1) % len(self.intersection.trafficLightStreetTuples)
+
+        newList = self.intersection.trafficLightStreetTuples.copy()
+
         tuple = self.intersection.trafficLightStreetTuples[first]
-        self.intersection.trafficLightStreetTuples[first] = self.intersection.trafficLightStreetTuples[second]
-        self.intersection.trafficLightStreetTuples[second] = tuple
+        newList[first] = self.intersection.trafficLightStreetTuples[second]
+        newList[second] = tuple
+
+        return newList
 
 class ChangeWeightMutation(Mutation):
     def __init__(self, intersection):
         super(ChangeWeightMutation, self).__init__(MutationType.CHANGE_WEIGHT, intersection)
 
     def getTrafficLightStreetTuples(self):
-        first = random.randint(0, len(self.intersection.trafficLightStreetTuples))
+        newList = self.intersection.trafficLightStreetTuples.copy()
+        randIx = random.randInt(0, len(newList))
+        randEl = newList[randIx]
 
-        self.intersection.trafficLightStreetTuples[first][0] = random.randint(1, self.intersection.O.duration)
+        if randEl[0] == 0:
+            newList[randIx] = (1, randEl[1])
+        else:
+            if random.random() < self.intersection.O.increment_decrement_heuristic:
+                newList[randIx] = (randEl[0] + 1, randEl[1])
+            else:
+                newList[randIx] = (randEl[0] - 1, randEl[1])
+
+        return newList
+
 
 class Intersection:
     def __init__(self, O, id, streets):
@@ -63,6 +81,14 @@ class Intersection:
             else:
                 timeSlot -= tup[0]
 
+    def getCurrentGreenStreetSL(self, currentTimeslot, trafficLights):
+        timeSlot = currentTimeslot
+        for tup in trafficLights:
+            if timeSlot - tup[0] < 0:
+                return tup[1]
+            else:
+                timeSlot -= tup[0]
+
     def driveNextCar(self):
         greenStreet = self.getCurrentGreenStreet()
 
@@ -80,7 +106,34 @@ class Intersection:
 
     def mutationScore(self):
         mutation = self.generateMutation()
+        newTrafficLights = mutation.getTrafficLightStreetTuples()
 
+    def calcWaitingTime(self, trafficLights):
+        sortedArrivals = {}
+        doneArrivals = {}
+        for key in self.carArrivals:
+            sortedArrivals[key] = list(sorted(self.carArrivals[key], key=lambda tup: tup[0]))
+        # carArrivals = list(sorted(self.carArrivals, key=lambda tup: tup[1]))
+
+        maxTime = sum(map(lambda tup: tup[0], trafficLights))
+        timeslot = 0
+
+        totalWaitingTime = 0
+
+        for T in range(self.O.duration):
+            street = self.getCurrentGreenStreetSL(timeslot, trafficLights)
+            cars = sortedArrivals[street]
+
+            if len(cars) > 0:
+                if cars[0][0] <= T:
+                    totalWaitingTime += T - cars[0][0]
+
+                    if len(cars) > 1:
+                        sortedArrivals[street] = sortedArrivals[street][1:]
+
+            timeslot += 1
+            if timeslot >= maxTime:
+                timeslot = 0
 
     def generateMutation(self):
         if random.random() > self.O.swap_vs_increment_heuristic:

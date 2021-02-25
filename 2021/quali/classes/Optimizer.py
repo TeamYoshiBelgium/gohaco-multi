@@ -14,8 +14,8 @@ class Optimizer:
     def preprocess(self):
         for car in tqdm(self.cars):
             for street in car.streets:
-                street.endIntersection.addCar(car)
-
+                street.end_intersection.addCar(car)
+                
         # print(self.orders[1], self.orders[1].orders[:20])
 
     def optimize(self):

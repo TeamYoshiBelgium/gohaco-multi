@@ -78,7 +78,7 @@ class Intersection:
             if car.finished is True:
                 continue
 
-            if car.nextStreet == greenStreet:
+            if car.currentStreet == greenStreet:
                 car.driveIntersection()
                 self.currentCars.remove(car)
                 return car

@@ -5,10 +5,10 @@ from .Intersection import Intersection
 
 
 class Loader:
-    def __init__(self, filename): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
+    def __init__(self, filename, swap_vs_increment_heuristic, increment_decrement_heuristic): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
         self.filename = filename
         with open(filename) as file:
-            self.O = Optimizer(self)#heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim)
+            self.O = Optimizer(self, swap_vs_increment_heuristic, increment_decrement_heuristic)#heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim)
 
             self.read_header_line(file)
             self.O.streets = self.read_streets(file)

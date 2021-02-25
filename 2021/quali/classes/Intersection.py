@@ -1,4 +1,5 @@
 
+import random
 from enum import Enum
 from abc import ABC,abstractmethod
 
@@ -45,7 +46,12 @@ class Intersection:
         pass
 
     def generateMutation(self):
-        pass
+        if random.random() > self.O.swap_vs_increment_heuristic:
+            mutation = SwapMutation(self)
+        else:
+            mutation = ChangeWeightMutation(self)
+
+        return mutation
 
     def addCar(self, car):
         self.carsThatPassThrough.append(car)

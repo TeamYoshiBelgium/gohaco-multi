@@ -5,8 +5,10 @@ from . import Loader
 THREADS = 6
 
 class Optimizer:
-    def __init__(self, loader: Loader): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
+    def __init__(self, loader: Loader, swap_vs_increment_heuristic, increment_decrement_heuristic): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
         self.L = loader
+        self.swap_vs_increment_heuristic = swap_vs_increment_heuristic
+        self.increment_decrement_heuristic = increment_decrement_heuristic
 
     def init(self):
         pass

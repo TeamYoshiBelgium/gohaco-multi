@@ -17,11 +17,11 @@ def main():
         # execute_file("in/f.txt")
 
 
-def execute_file(file_name):
+def execute_file(file_name, swap_vs_increment_heuristic, increment_decrement_heuristic):
     S = Settings()
     print("Script v%s started [%s]" % (S.version, file_name))
 
-    L = Loader(file_name)
+    L = Loader(file_name, swap_vs_increment_heuristic, increment_decrement_heuristic)
 
     L.O.optimize()
 

@@ -1,6 +1,7 @@
 from .Optimizer import Optimizer
 from .Street import Street
 from .Car import Car
+from .Intersection import Intersection
 
 
 class Loader:
@@ -12,6 +13,26 @@ class Loader:
             self.read_header_line(file)
             self.O.streets = self.read_streets(file)
             self.O.cars = self.read_cars(file)
+
+            intersections = dict()
+            for street in self.O.streets:
+                if street.start in intersections:
+                    intersections[street.start] = [street.name]
+                else:
+                    intersections[street.start].append(street.name)
+                if street.end in intersections:
+                    intersections[street.end] = [street.name]
+                else:
+                    intersections[street.end].append(street.name)
+
+            self.O.intersections = []
+            for key in intersections.keys():
+                intersection = Intersection(key, intersections[key])
+                self.O.intersections.append(intersection)
+
+            self.O.streets_dict = dict()
+            for street in self.O.streets:
+                self.O.streets_dict[street.name] = street
 
         pass
 

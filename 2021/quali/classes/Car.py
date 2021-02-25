@@ -37,11 +37,11 @@ class Car:
 
         if self.currentStreetIndex + 1 < len(self.streets):
             self.currentIntersection = self.nextStreet.end_intersection
-            self.currentIntersection.currentCars.append(self)
+            self.currentIntersection.addNewCar(self, self.blockedT, self.nextStreet)
             self.nextStreet = self.streets[self.currentStreetIndex + 1]
         else:
             self.finished = True
-            self.finishTime = self.blockedT + self.nextStreet.time
+            self.finishTime = self.blockedT #self.O.currentT + self.nextStreet.time
             self.nextStreet = None
 
 

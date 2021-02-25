@@ -21,8 +21,8 @@ class SwapMutation(Mutation):
         super(SwapMutation, self).__init__(MutationType.SWAP, intersection)
 
     def getTrafficLightStreetTuples(self):
-        first = random.randint(0, len(self.intersection.trafficLightStreetTuples))
-        second = random.randint(0, len(self.intersection.trafficLightStreetTuples))
+        first = random.randint(0, len(self.intersection.trafficLightStreetTuples) - 1)
+        second = random.randint(0, len(self.intersection.trafficLightStreetTuples) - 1)
 
         if first == second:
             second = (first + 1) % len(self.intersection.trafficLightStreetTuples)
@@ -41,7 +41,7 @@ class ChangeWeightMutation(Mutation):
 
     def getTrafficLightStreetTuples(self):
         newList = self.intersection.trafficLightStreetTuples.copy()
-        randIx = random.randInt(0, len(newList))
+        randIx = random.randint(0, len(newList) - 1)
         randEl = newList[randIx]
 
         if randEl[0] == 0:
@@ -67,9 +67,24 @@ class Intersection:
         for street in self.streets:
             self.trafficLightStreetTuples.append((1, street))
 
+        # street_usage = []
+        # for street in self.streets:
+        #     if street.name in self.O.first_street_usage:
+        #         street_usage.append((street.name, self.O.first_street_usage[street.name]))
+        #     else:
+        #         street_usage.append((street.name, 0))
+        #
+        # street_usage.sort(key=lambda tup: tup[1], reverse=True)
+        #
+        # for street in street_usage:
+        #     self.trafficLightStreetTuples.append((1, street))
+
         self.currentCars = []
         self.currentTimeSlot = 0
         self.maxTime = 0
+        self.carArrivals = {}
+        for street in streets:
+            self.carArrivals[street] = []
 
     # def calcScore(self, trafficLightStreetTuples):
 
@@ -89,6 +104,13 @@ class Intersection:
             else:
                 timeSlot -= tup[0]
 
+        return trafficLights[len(trafficLights) - 1][1]
+
+
+    def addNewCar(self, car, driveTime, fromStreet):
+        self.carArrivals[fromStreet].append((driveTime, car))
+        self.currentCars.append(car)
+
     def driveNextCar(self):
         greenStreet = self.getCurrentGreenStreet()
 
@@ -104,13 +126,24 @@ class Intersection:
                 self.currentCars.remove(car)
                 return car
 
-    def mutationScore(self):
+    def generateMutationAndReturnScore(self):
         mutation = self.generateMutation()
+        score = self.mutationScore(mutation)
+
+        return (score, mutation)
+
+    def mutationScore(self, mutation):
         newTrafficLights = mutation.getTrafficLightStreetTuples()
+
+        oldWait = self.calcWaitingTime(self.trafficLightStreetTuples)
+        newWait = self.calcWaitingTime(newTrafficLights)
+
+        return oldWait - newWait
 
     def calcWaitingTime(self, trafficLights):
         sortedArrivals = {}
         doneArrivals = {}
+
         for key in self.carArrivals:
             sortedArrivals[key] = list(sorted(self.carArrivals[key], key=lambda tup: tup[0]))
         # carArrivals = list(sorted(self.carArrivals, key=lambda tup: tup[1]))
@@ -121,6 +154,10 @@ class Intersection:
         totalWaitingTime = 0
 
         for T in range(self.O.duration):
+            timeslot += 1
+            if timeslot >= maxTime:
+                timeslot = 0
+
             street = self.getCurrentGreenStreetSL(timeslot, trafficLights)
             cars = sortedArrivals[street]
 
@@ -130,20 +167,20 @@ class Intersection:
 
                     if len(cars) > 1:
                         sortedArrivals[street] = sortedArrivals[street][1:]
+                    else:
+                        sortedArrivals[street] = []
 
-            timeslot += 1
-            if timeslot >= maxTime:
-                timeslot = 0
+        return totalWaitingTime
 
     def generateMutation(self):
-        if random.random() > self.O.swap_vs_increment_heuristic:
+        if random.random() < self.O.swap_vs_increment_heuristic:
             mutation = SwapMutation(self)
         else:
             mutation = ChangeWeightMutation(self)
 
         return mutation
 
-    def addCar(self, car):
+    def addStartCar(self, car):
         self.carsThatPassThrough.append(car)
 
     def __str__(self):

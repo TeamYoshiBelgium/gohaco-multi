@@ -7,8 +7,8 @@ THREADS = 6
 class Optimizer:
     def __init__(self, loader: Loader, swap_vs_increment_heuristic, increment_decrement_heuristic): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
         self.L = loader
-        self.swap_vs_increment_heuristic = swap_vs_increment_heuristic
-        self.increment_decrement_heuristic = increment_decrement_heuristic
+        self.swap_vs_increment_heuristic = float(swap_vs_increment_heuristic)
+        self.increment_decrement_heuristic = float(increment_decrement_heuristic)
         self.first_street_usage = []
         self.street_usage = []
 
@@ -38,7 +38,7 @@ class Optimizer:
                 street_first_usage_dict[first_street.name] = 1
 
             for street in car.streets:
-                street.end_intersection.addCar(car)
+                street.end_intersection.addStartCar(car)
 
                 if street.name in street_usage_dict:
                     street_usage_dict[street.name] += 1
@@ -59,8 +59,13 @@ class Optimizer:
     def optimize(self):
         self.preprocess()
 
-        self.duration = 10
+        self.duration = 100000
         self.updateGlobalState()
+
+        for intersection in self.intersections:
+            print("%s %s" % (intersection, intersection.calcWaitingTime(intersection.trafficLightStreetTuples)))
+            (score, mutation) = intersection.generateMutationAndReturnScore()
+            print("  %s %s" % (score, mutation.type))
 
         for car in self.cars:
             print("%s %s %s\n\r  %s\n\r  %s" % (car, car.finished, car.finishTime, car.doneStreets, car.streets))
@@ -83,16 +88,16 @@ class Optimizer:
         for car in self.cars:
             car.blockedTill = 0
             car.currentIntersection = car.streets[0].end_intersection
-            car.currentIntersection.currentCars.append(car)
             car.currentStreetIndex = 0
             car.currentStreet = car.streets[0]
             car.nextStreet = car.streets[1]
             car.finished = False
             car.doneStreets = [car.currentStreet]
+            car.currentIntersection.addNewCar(car, 0, car.currentStreet)
 
         for i in range(self.duration):
             self.currentT = i
-            print(i)
+            # print(i)
 
             for intersection in self.intersections:
                 intersection.currentTimeSlot += 1
@@ -101,8 +106,6 @@ class Optimizer:
 
                 car = intersection.driveNextCar()
                 # print(car)
-
-
 
 
     def parallelCalculation(self, objects):

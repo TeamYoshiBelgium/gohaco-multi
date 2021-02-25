@@ -16,10 +16,10 @@ class Loader:
 
             intersections = dict()
             for street in self.O.streets:
-                if street.start not in intersections:
-                    intersections[street.start] = [street]
-                else:
-                    intersections[street.start].append(street)
+                # if street.start not in intersections:
+                #     intersections[street.start] = [street]
+                # else:
+                #     intersections[street.start].append(street)
                 if street.end not in intersections:
                     intersections[street.end] = [street]
                 else:

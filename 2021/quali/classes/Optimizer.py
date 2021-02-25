@@ -27,38 +27,37 @@ class Optimizer:
         pass
 
     def preprocess(self):
-
-        street_first_usage_dict = dict()
-        street_usage_dict = dict()
-        for car in tqdm(self.cars):
-
-            first_street = car.streets[0]
-            if first_street.name in street_first_usage_dict:
-                street_first_usage_dict[first_street.name] += 1
-            else:
-                street_first_usage_dict[first_street.name] = 1
-
-            for street in car.streets:
-                street.end_intersection.addStartCar(car)
-
-                if street.name in street_usage_dict:
-                    street_usage_dict[street.name] += 1
-                else:
-                    street_usage_dict[street.name] = 1
-
-        for key in street_usage_dict.keys():
-            self.street_usage.append((key, street_usage_dict[key]))
-
-        for key in street_first_usage_dict.keys():
-            self.first_street_usage.append((key, street_first_usage_dict[key]))
-
-        self.first_street_usage.sort(key=lambda tup: tup[1], reverse=True)
+        pass
+        # street_first_usage_dict = dict()
+        # street_usage_dict = dict()
+        # for car in tqdm(self.cars):
+        #
+        #     first_street = car.streets[0]
+        #     if first_street.name in street_first_usage_dict:
+        #         street_first_usage_dict[first_street.name] += 1
+        #     else:
+        #         street_first_usage_dict[first_street.name] = 1
+        #
+        #     for street in car.streets:
+        #         street.end_intersection.addStartCar(car)
+        #
+        #         if street.name in street_usage_dict:
+        #             street_usage_dict[street.name] += 1
+        #         else:
+        #             street_usage_dict[street.name] = 1
+        #
+        # for key in street_usage_dict.keys():
+        #     self.street_usage.append((key, street_usage_dict[key]))
+        #
+        # for key in street_first_usage_dict.keys():
+        #     self.first_street_usage.append((key, street_first_usage_dict[key]))
+        #
+        # self.first_street_usage.sort(key=lambda tup: tup[1], reverse=True)
         # print(self.orders[1], self.orders[1].orders[:20])
 
     def optimize(self):
         self.preprocess()
 
-        self.duration = 100000
         self.updateGlobalState()
 
         # for intersection in self.intersections:
@@ -70,7 +69,7 @@ class Optimizer:
         #     print("%s %s %s\n\r  %s\n\r  %s" % (car, car.finished, car.finishTime, car.doneStreets, car.streets))
 
         # self.duration = 10
-        self.updateGlobalState()
+        # self.updateGlobalState()
 
         # for car in self.cars:
         #     print("%s %s %s\n\r  %s\n\r  %s" % (car, car.finished, car.finishTime, car.doneStreets, car.streets))
@@ -98,6 +97,9 @@ class Optimizer:
             intersection.currentCars = []
             intersection.currentTimeSlot = 0
             intersection.maxTime = sum(map(lambda tup: tup[0], intersection.trafficLightStreetTuples))
+            intersection.carArrivals = {}
+            for street in intersection.streets:
+                intersection.carArrivals[street] = []
 
         for car in self.cars:
             car.blockedTill = 0
@@ -108,6 +110,8 @@ class Optimizer:
             car.finished = False
             car.doneStreets = [car.currentStreet]
             car.currentIntersection.addNewCar(car, 0, car.currentStreet)
+            car.finishTime = 0
+            car.blockedT = 0
 
         for i in range(self.duration):
             self.currentT = i

@@ -38,9 +38,9 @@ class Optimizer:
         for car in self.cars:
             print("%s %s %s" % (car, car.finished, car.finishTime))
 
-        with Pool(THREADS) as p:
-            while True:
-                p.map(self.parallelCalculation, [])
+        # with Pool(THREADS) as p:
+        #     while True:
+        #         p.map(self.parallelCalculation, [])
 
         self.write()
         self.analyze()

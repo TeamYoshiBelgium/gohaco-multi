@@ -15,6 +15,12 @@ class Car:
     def __repr__(self):
         return str(self)
 
+    def total_time(self):
+        total_time = 0
+        for street in self.streets:
+            total_time += street.time
+        return total_time
+
     #
     # def __gt__(self, other):
     #     return self.No > other.No

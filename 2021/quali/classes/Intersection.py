@@ -51,7 +51,10 @@ class Intersection:
 
         # street_usage = []
         # for street in self.streets:
-        #     street_usage.append((street.name, self.O.street_usage_dict[street.name]))
+        #     if street.name in self.O.first_street_usage:
+        #         street_usage.append((street.name, self.O.first_street_usage[street.name]))
+        #     else:
+        #         street_usage.append((street.name, 0))
         #
         # street_usage.sort(key=lambda tup: tup[1], reverse=True)
         #

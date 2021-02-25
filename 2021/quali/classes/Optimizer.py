@@ -9,6 +9,7 @@ class Optimizer:
         self.L = loader
         self.swap_vs_increment_heuristic = swap_vs_increment_heuristic
         self.increment_decrement_heuristic = increment_decrement_heuristic
+        self.first_street_usage = []
         self.street_usage = []
 
     def init(self):
@@ -16,8 +17,16 @@ class Optimizer:
 
     def preprocess(self):
 
+        street_first_usage_dict = dict()
         street_usage_dict = dict()
         for car in tqdm(self.cars):
+
+            first_street = car.streets[0]
+            if first_street.name in street_first_usage_dict:
+                street_first_usage_dict[first_street.name] += 1
+            else:
+                street_first_usage_dict[first_street.name] = 1
+
             for street in car.streets:
                 street.end_intersection.addCar(car)
 
@@ -29,7 +38,10 @@ class Optimizer:
         for key in street_usage_dict.keys():
             self.street_usage.append((key, street_usage_dict[key]))
 
-        self.street_usage.sort(key=lambda tup: tup[1], reverse=True)
+        for key in street_first_usage_dict.keys():
+            self.first_street_usage.append((key, street_first_usage_dict[key]))
+
+        self.first_street_usage.sort(key=lambda tup: tup[1], reverse=True)
 
 
         # print(self.orders[1], self.orders[1].orders[:20])

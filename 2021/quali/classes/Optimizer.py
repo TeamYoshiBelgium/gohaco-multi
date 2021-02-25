@@ -59,7 +59,7 @@ class Optimizer:
     def optimize(self):
         self.preprocess()
 
-        self.duration = 10
+        # self.duration = 10
         self.updateGlobalState()
 
         for car in self.cars:

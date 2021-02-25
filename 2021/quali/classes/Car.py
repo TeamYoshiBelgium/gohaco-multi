@@ -67,8 +67,8 @@ class Car:
         return total_time
 
     def get_score(self):
-        if self.does_finish():
-            return 1000 + self.O.duration - self.drive_time
+        if self.finished and self.finishTime <= self.O.duration:
+            return 1000 + self.O.duration - self.finishTime
         else:
             return 0
 

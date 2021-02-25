@@ -1,9 +1,10 @@
 
 
 class Intersection:
-    def __init__(self, O, id):
+    def __init__(self, O, id, streets):
         self.O = O
         self.id = id
+        self.streets = streets
 
         self.trafficLightStreetTuples = []
         self.carsThatPassThrough = []

@@ -13,7 +13,7 @@ class Intersection:
             self.trafficLightStreetTuples.append((1, street))
 
     def addCar(self, car):
-        self.cars.append(car)
+        self.carsThatPassThrough.append(car)
 
     def __str__(self):
         return 'IS%i(%s)' % (self.id)

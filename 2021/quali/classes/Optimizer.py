@@ -12,8 +12,10 @@ class Optimizer:
         pass
 
     def preprocess(self):
-        for book in tqdm(self.books):
-            book.calc_library_scores()
+        for car in tqdm(self.cars):
+            for street in car.streets:
+                street.endIntersection.addCar(car)
+                
         # print(self.orders[1], self.orders[1].orders[:20])
 
     def optimize(self):

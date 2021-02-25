@@ -9,6 +9,7 @@ class MutationType(Enum):
 
 class Mutation(ABC):
     def __init__(self, type, intersection):
+        self.cached = None
         self.type = type
         self.intersection = intersection
 
@@ -18,9 +19,13 @@ class Mutation(ABC):
 
 class SwapMutation(Mutation):
     def __init__(self, intersection):
+        self.cached = None
         super(SwapMutation, self).__init__(MutationType.SWAP, intersection)
 
     def getTrafficLightStreetTuples(self):
+        if self.cached is not None:
+            return self.cached
+
         first = random.randint(0, len(self.intersection.trafficLightStreetTuples) - 1)
         second = random.randint(0, len(self.intersection.trafficLightStreetTuples) - 1)
 
@@ -33,6 +38,8 @@ class SwapMutation(Mutation):
         newList[first] = self.intersection.trafficLightStreetTuples[second]
         newList[second] = tuple
 
+        self.cached = newList
+
         return newList
 
 class ChangeWeightMutation(Mutation):
@@ -40,6 +47,9 @@ class ChangeWeightMutation(Mutation):
         super(ChangeWeightMutation, self).__init__(MutationType.CHANGE_WEIGHT, intersection)
 
     def getTrafficLightStreetTuples(self):
+        if self.cached is not None:
+            return self.cached
+
         newList = self.intersection.trafficLightStreetTuples.copy()
         randIx = random.randint(0, len(newList) - 1)
         randEl = newList[randIx]
@@ -52,6 +62,7 @@ class ChangeWeightMutation(Mutation):
             else:
                 newList[randIx] = (randEl[0] - 1, randEl[1])
 
+        self.cached = newList
         return newList
 
 

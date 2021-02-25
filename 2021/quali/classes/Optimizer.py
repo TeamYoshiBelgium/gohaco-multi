@@ -76,11 +76,17 @@ class Optimizer:
         # for car in self.cars:
         #     print("%s %s %s\n\r  %s\n\r  %s" % (car, car.finished, car.finishTime, car.doneStreets, car.streets))
 
-        # with Pool(THREADS) as p:
-        #     while True:
-        #         p.map(self.parallelCalculation, [])
+        with Pool(THREADS) as p:
+            while True:
+                self.write()
+                mutations = p.map(self.parallelCalculation, self.intersections)
+                mutations = filter(lambda score: score[0] > 0,sorted(mutations, key=lambda tup: tup[0], reverse=True))
 
-        self.write()
+                for mutation in mutations:
+                    mutation[1].intersection.trafficLightStreetTuples = mutation[1].getTrafficLightStreetTuples()
+
+                self.updateGlobalState()
+
         self.analyze()
 
     def updateGlobalState(self):
@@ -114,8 +120,8 @@ class Optimizer:
                 # print(car)
 
 
-    def parallelCalculation(self, objects):
-        pass
+    def parallelCalculation(self, intersection):
+        return intersection.generateMutationAndReturnScore()
 
     def write(self):
         pass

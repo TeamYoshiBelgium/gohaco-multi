@@ -49,20 +49,38 @@ class Intersection:
         for street in self.streets:
             self.trafficLightStreetTuples.append((1, street))
 
-        # street_usage = []
-        # for street in self.streets:
-        #     if street.name in self.O.first_street_usage:
-        #         street_usage.append((street.name, self.O.first_street_usage[street.name]))
-        #     else:
-        #         street_usage.append((street.name, 0))
-        #
-        # street_usage.sort(key=lambda tup: tup[1], reverse=True)
-        #
-        # for street in street_usage:
-        #     self.trafficLightStreetTuples.append((1, street))
+        self.currentCars = []
+        self.currentTimeSlot = 0
+        self.maxTime = 0
+
+    # def calcScore(self, trafficLightStreetTuples):
+
+    def getCurrentGreenStreet(self):
+        timeSlot = self.currentTimeSlot
+        for tup in self.trafficLightStreetTuples:
+            if timeSlot - tup[0] < 0:
+                return tup[1]
+            else:
+                timeSlot -= tup[0]
+
+    def driveNextCar(self):
+        greenStreet = self.getCurrentGreenStreet()
+
+        for car in self.currentCars:
+            if car.blockedT > self.O.currentT:
+                continue
+
+            if car.finished is True:
+                continue
+
+            if car.nextStreet == greenStreet:
+                car.driveIntersection()
+                self.currentCars.remove(car)
+                return car
 
     def mutationScore(self):
-        pass
+        mutation = self.generateMutation()
+
 
     def generateMutation(self):
         if random.random() > self.O.swap_vs_increment_heuristic:
@@ -76,7 +94,7 @@ class Intersection:
         self.carsThatPassThrough.append(car)
 
     def __str__(self):
-        return 'IS%i(%s)' % (self.id)
+        return 'IS(%i)' % (self.id)
 
     def __repr__(self):
         return str(self)

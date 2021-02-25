@@ -12,6 +12,16 @@ class Optimizer:
         self.first_street_usage = []
         self.street_usage = []
 
+        # self.O.cars
+        # self.O.duration
+        # self.O.intersections
+        # self.O.intersections_dict
+        # self.O.score
+        # self.O.streets
+        # self.O.streets_dict
+
+        self.currentT = 0
+
     def init(self):
         pass
 
@@ -47,15 +57,53 @@ class Optimizer:
         # print(self.orders[1], self.orders[1].orders[:20])
 
     def optimize(self):
-
         self.preprocess()
 
-        with Pool(THREADS) as p:
-            while True:
-                p.map(self.parallelCalculation, [])
+        self.duration = 10
+        self.updateGlobalState()
+
+        for car in self.cars:
+            print("%s %s %s\n\r  %s\n\r  %s" % (car, car.finished, car.finishTime, car.doneStreets, car.streets))
+
+        # with Pool(THREADS) as p:
+        #     while True:
+        #         p.map(self.parallelCalculation, [])
 
         self.write()
         self.analyze()
+
+    def updateGlobalState(self):
+        self.currentT = 0
+
+        for intersection in self.intersections:
+            intersection.currentCars = []
+            intersection.currentTimeSlot = 0
+            intersection.maxTime = sum(map(lambda tup: tup[0], intersection.trafficLightStreetTuples))
+
+        for car in self.cars:
+            car.blockedTill = 0
+            car.currentIntersection = car.streets[0].end_intersection
+            car.currentIntersection.currentCars.append(car)
+            car.currentStreetIndex = 0
+            car.currentStreet = car.streets[0]
+            car.nextStreet = car.streets[1]
+            car.finished = False
+            car.doneStreets = [car.currentStreet]
+
+        for i in range(self.duration):
+            self.currentT = i
+            print(i)
+
+            for intersection in self.intersections:
+                intersection.currentTimeSlot += 1
+                if intersection.currentTimeSlot >= intersection.maxTime:
+                    intersection.currentTimeSlot = 0
+
+                car = intersection.driveNextCar()
+                # print(car)
+
+
+
 
     def parallelCalculation(self, objects):
         pass

@@ -28,6 +28,7 @@ class MountPoint:
 
         for task in tasks:
             score = task.get_score_per_moves(self)
+            print(score)
             if score > 0:
                 result = (score, task)
                 results.append(result)

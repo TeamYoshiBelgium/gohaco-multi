@@ -30,6 +30,23 @@ class Task:
     def __str__(self):
         return "TASK%03s(%-03s/%03s)" % (self.No, self.score, self.points_count)
 
+    def get_score_and_moves_euclidean(self, arm: Arm):
+        current_loc_x = arm.x
+        current_loc_y = arm.y
+        steps_needed = 0
+
+        for point in self.points:
+            path = self._get_moves(current_loc_x, current_loc_y, point.x, point.y)
+            if path is None:
+                return None
+
+            steps_needed += len(path)
+
+            current_loc_x = point.x
+            current_loc_y = point.y
+
+        return self.score, steps_needed
+
     def get_score_and_moves(self, arm: Arm):
         current_loc_x = arm.x
         current_loc_y = arm.y

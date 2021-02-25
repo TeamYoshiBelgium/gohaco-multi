@@ -64,6 +64,7 @@ class Intersection:
         self.currentCars = []
         self.currentTimeSlot = 0
         self.maxTime = 0
+        self.carArrivals = []
 
     # def calcScore(self, trafficLightStreetTuples):
 
@@ -74,6 +75,10 @@ class Intersection:
                 return tup[1]
             else:
                 timeSlot -= tup[0]
+
+    def addNewCar(self, car, driveTime, fromStreet):
+        self.carArrivals.append((car, driveTime, fromStreet))
+        self.currentCars.append(car)
 
     def driveNextCar(self):
         greenStreet = self.getCurrentGreenStreet()
@@ -102,7 +107,7 @@ class Intersection:
 
         return mutation
 
-    def addCar(self, car):
+    def addStartCar(self, car):
         self.carsThatPassThrough.append(car)
 
     def __str__(self):

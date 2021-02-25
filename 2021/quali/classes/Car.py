@@ -1,8 +1,10 @@
 class Car:
     CNTR = 0
 
-    def __init__(self, O):
+    def __init__(self, O, count, streets):
         self.O = O
+        self.count = count
+        self.streets = streets
 
         self.No = Car.CNTR
         Car.CNTR += 1

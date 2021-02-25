@@ -16,23 +16,28 @@ class Loader:
 
             intersections = dict()
             for street in self.O.streets:
-                if street.start in intersections:
+                if street.start not in intersections:
                     intersections[street.start] = [street.name]
                 else:
                     intersections[street.start].append(street.name)
-                if street.end in intersections:
+                if street.end not in intersections:
                     intersections[street.end] = [street.name]
                 else:
                     intersections[street.end].append(street.name)
 
             self.O.intersections = []
             for key in intersections.keys():
-                intersection = Intersection(key, intersections[key])
+                intersection = Intersection(self.O, key, intersections[key])
                 self.O.intersections.append(intersection)
 
             self.O.streets_dict = dict()
             for street in self.O.streets:
                 self.O.streets_dict[street.name] = street
+
+            for car in self.O.cars:
+                car.streets_obj = []
+                for street in car.streets:
+                    car.streets_obj.append(self.O.streets_dict[street])
 
         pass
 
@@ -68,7 +73,7 @@ class Loader:
 
         for i in range(self.O.cars):
             row = file.readline()
-            splitted = row.split(" ")
+            splitted = row.strip().split(" ")
             count = int(splitted[0])
             streets = splitted[1:]
 

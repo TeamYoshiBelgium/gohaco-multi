@@ -1,5 +1,8 @@
+from classes import Optimizer, Loader
+
+
 class Writer:
-    def __init__(self, L, O):
+    def __init__(self, L: Loader, O: Optimizer):
         self.L = L
         self.O = O
 
@@ -7,7 +10,7 @@ class Writer:
         score = 0
 
         for car in self.L.O.cars:
-            score += car.score
+            score += car.get_score()
 
         filename = self.L.filename.replace(".in", "." + str(score) + ".out").replace("in/", "out/")
         # filename = filename.replace(".out", ".NEW.out")

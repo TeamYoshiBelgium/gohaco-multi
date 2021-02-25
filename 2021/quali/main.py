@@ -9,7 +9,7 @@ def main():
     if len(sys.argv) > 1 and sys.argv[1] != "-a":
         execute_file(sys.argv[1])
     else:
-        execute_file("in/a_example.txt")
+        execute_file("in/a.txt")
         # execute_file("in/b_single_arm.txt")
         # execute_file("in/d_tight_schedule.txt")
         # execute_file("in/e_dense_workspace.txt")

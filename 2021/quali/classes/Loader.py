@@ -4,10 +4,10 @@ from .Car import Car
 
 
 class Loader:
-    def __init__(self, filename, heuristic_signup, heuristic_wasted): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
+    def __init__(self, filename): #, heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim):
         self.filename = filename
         with open(filename) as file:
-            self.O = Optimizer(heuristic_signup, heuristic_wasted)#heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim)
+            self.O = Optimizer(self)#heuristic_useless, heuristic_signup, heuristic_bookcount, heuristic_realdays, trim)
 
             self.read_header_line(file)
             self.O.streets = self.read_streets(file)
@@ -28,7 +28,7 @@ class Loader:
     def read_streets(self, file):
         streets = []
 
-        for i in range(self.streets):
+        for i in range(self.O.streets):
             row = file.readline()
             splitted = row.split(" ")
             start = int(splitted[0])

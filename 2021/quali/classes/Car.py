@@ -10,6 +10,8 @@ class Car:
         Car.CNTR += 1
 
         self.currentStreetIndex = 0
+        self.finished = False
+        self.finishTime = 0
 
     def driveIntersection(self):
         # car.currentIntersection = car.streets[0].end_intersection
@@ -20,6 +22,7 @@ class Car:
         self.currentStreetIndex += 1
         if self.currentStreetIndex >= len(self.streets):
             self.finished = True
+            self.finishTime = self.O.currentT + self.currentStreet.time
 
         self.currentStreet = self.streets[self.currentStreetIndex]
         if self.currentStreetIndex + 1 < len(self.streets):
@@ -34,7 +37,7 @@ class Car:
 
 
     def __str__(self):
-        return 'CAR%i(%i %s)' % (self.id, self.score, str(self.done)[0])
+        return 'CAR%i' % (self.No)
 
     def __repr__(self):
         return str(self)

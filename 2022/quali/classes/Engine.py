@@ -14,19 +14,19 @@ class Engine:
     def optimize(self):
         projects = sorted(self.projects,key= lambda x : x.order, reverse=False)
 
-        iterations = 0
-        prevLen = len(projects)
-        while projects:
-            if prevLen == len(projects):
-                iterations += 1
-            prevLen = len(projects)
-            if iterations > len(self.projects):
+        finishedProjects = set()
+
+        pointer = 0
+        while True:
+            if pointer >= len(self.projects):
                 break
 
             # print(len(projects))
 
-            project = projects[0]
-            projects = projects[1:]
+            project = projects[pointer]
+            if project in finishedProjects:
+                pointer += 1
+                continue
 
             # for skill in project.skills:
             candidates = []
@@ -80,7 +80,8 @@ class Engine:
                 if not personScores:
                     # print("CANNOT COMPLETE PROJECT")
                     # TODO: re-add, but find termination conditions?
-                    projects.append(project)
+                    # projects.append(project)
+                    pointer += 1
                     break
 
                 # print(personScores)
@@ -144,8 +145,10 @@ class Engine:
 
                 # project.persons = sorted(project.persons, key=lambda tup: tup[1])
                 self.planned_projects.append(project)
+                finishedProjects.add(project)
 
                 project.completion_date = maxCompletionTime
+                pointer = 0
 
         print("GREEDY")
 

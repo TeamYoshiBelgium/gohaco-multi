@@ -8,6 +8,8 @@ class Engine:
         self.projectCount = len(projects)
         self.personCount = len(persons)
 
+        self.planned_projects = []
+
 
     def optimize(self):
         projects = sorted(self.projects,key= lambda x : x.order, reverse=False)
@@ -47,7 +49,7 @@ class Engine:
 
                 print(personScores)
 
-                exit()
+                break
         print("GREEDY")
 
     def improve(self):

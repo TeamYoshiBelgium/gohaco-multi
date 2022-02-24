@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pyp main.py "$@"
+pypy main.py "$@"

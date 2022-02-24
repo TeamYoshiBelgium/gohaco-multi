@@ -17,7 +17,14 @@ class Engine:
         finishedProjects = set()
 
         pointer = 0
+
+        iteration = 0
+
         while True:
+            if not iteration % 10000:
+                print(len(finishedProjects), "/", len(projects), pointer, flush=True)
+            iteration += 1
+
             if pointer >= len(self.projects):
                 break
 
@@ -62,10 +69,10 @@ class Engine:
                                 score += 1
                             # Learning yourself
                             elif level == person.skills[skill]:
-                                score += 2
+                                score += 5
                             # Learning by being mentored
                             elif level - 1 == person.skills[skill] and skill in skillMentorLevels and skillMentorLevels[skill] >= level:
-                                score += 2.5
+                                score += 10
 
                     # TODO Correction: maximum possible score remaining instead of project score
                     timeFactor = (project.score - min(0, project.before - (person.time + project.duration)))/project.score

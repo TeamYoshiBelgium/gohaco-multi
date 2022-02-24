@@ -12,15 +12,15 @@ class Project:
 
 
     def __str__(self):
-        return "%s: %s %s %s" % (self.name, self.duration, self.score, self.before)
+        return "PROJ[%s,D:%s,S:%s,T:%s]" % (self.name, self.duration, self.score, self.before)
 
     def __repr__(self):
         return str(self)
 
     def get_complexity(self):
         complexity = 0
-        for (key, value) in self.skills:
-            complexity += value
+        for key in self.skills:
+            complexity += self.skills[key]
 
         return complexity
 

@@ -14,9 +14,16 @@ class Engine:
     def optimize(self):
         projects = sorted(self.projects,key= lambda x : x.order, reverse=False)
 
-
+        iterations = 0
+        prevLen = len(projects)
         while projects:
-            print(projects)
+            if prevLen == len(projects):
+                iterations += 1
+            prevLen = len(projects)
+            if iterations > len(self.projects):
+                break
+
+            # print(len(projects))
 
             project = projects[0]
             projects = projects[1:]
@@ -73,6 +80,7 @@ class Engine:
                 if not personScores:
                     # print("CANNOT COMPLETE PROJECT")
                     # TODO: re-add, but find termination conditions?
+                    projects.append(project)
                     break
 
                 # print(personScores)

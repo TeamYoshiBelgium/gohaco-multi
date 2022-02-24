@@ -7,8 +7,22 @@ class Project:
         self.before = before
         self.roles = roles
 
+        self.complexity = self.get_complexity()
+        self.order = self.get_order()
+
+
     def __str__(self):
         return "%s: %s %s %s" % (self.name, self.duration, self.score, self.before)
 
     def __repr__(self):
         return str(self)
+
+    def get_complexity(self):
+        complexity = 0
+        for (key, value) in self.skills:
+            complexity += value
+
+        return complexity
+
+    def get_order(self):
+        return self.duration + (1 - (1 / self.complexity))

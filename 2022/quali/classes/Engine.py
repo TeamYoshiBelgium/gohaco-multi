@@ -23,7 +23,7 @@ class Engine:
 
             # for skill in project.skills:
             candidates = []
-
+            usedPersons = set()
 
             remainingSkills = []
             index = 0
@@ -37,6 +37,9 @@ class Engine:
                 personScores = []
 
                 for person in self.persons:
+                    if person in usedPersons:
+                        continue
+
                     if (person.time + project.duration) > project.before:
                         continue
 
@@ -113,6 +116,7 @@ class Engine:
                     index += 1
 
                 candidates.append((bestPerson, bestSkill, bestSkillIndex))
+                usedPersons.add(bestPerson)
 
             if not remainingSkills:
                 maxCompletionTime = 0

@@ -16,8 +16,6 @@ class Engine:
 
 
         while projects:
-            print(projects)
-
             project = projects[0]
             projects = projects[1:]
 

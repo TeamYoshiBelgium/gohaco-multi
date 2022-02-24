@@ -14,8 +14,12 @@ class Engine:
     def optimize(self):
         projects = sorted(self.projects,key= lambda x : x.order, reverse=False)
 
+
         while projects:
-            project = projects.pop(0)
+            print(projects)
+
+            project = projects[0]
+            projects = projects[1:]
 
             # for skill in project.skills:
             candidates = []
@@ -54,28 +58,28 @@ class Engine:
                     heapq.heappush(personScores, (-score * timeFactor, person))
 
                 # We cannot complete this project at this time
-                print(project)
+                # print(project)
                 if not personScores:
-                    print("CANNOT COMPLETE PROJECT")
+                    # print("CANNOT COMPLETE PROJECT")
                     # TODO: re-add, but find termination conditions?
                     break
 
-                print(personScores)
+                # print(personScores)
 
                 bestPerson = heapq.heappop(personScores)[1]
                 bestSkill = None
 
-                print("PRSN",bestPerson.skills)
-                print("PROJ",project.skills)
-                print("REMAINING",remainingSkills)
+                # print("PRSN",bestPerson.skills)
+                # print("PROJ",project.skills)
+                # print("REMAINING",remainingSkills)
                 for skill in sorted(remainingSkills, key=lambda skill: project.skills[skill], reverse=True):
-                    print(skill, skill in bestPerson.skills)
+                    # print(skill, skill in bestPerson.skills)
                     if skill not in bestPerson.skills:
                         continue
 
                     qualified = (project.skills[skill] <= bestPerson.skills[skill])
                     mentored = (project.skills[skill] - 1 == bestPerson.skills[skill] and skill in skillMentorLevels and skillMentorLevels[skill] >= project.skills[skill])
-                    print(skill, qualified, mentored)
+                    # print(skill, qualified, mentored)
                     if qualified or mentored:
                         bestSkill = skill
                         break
@@ -104,7 +108,8 @@ class Engine:
                         person.skills[skill] += 1
 
                     project.persons.append((person, skill))
-                    self.planned_projects.append(project)
+                    
+                self.planned_projects.append(project)
 
                 project.completion_date = maxCompletionTime
 

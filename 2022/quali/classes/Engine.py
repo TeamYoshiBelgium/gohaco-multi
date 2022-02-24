@@ -17,7 +17,12 @@ class Engine:
         finishedProjects = set()
 
         pointer = 0
+        iterations = 0
         while True:
+            if iterations%50 == 0:
+                print(len(finishedProjects), "/", len(self.projects), " (", pointer, ")", flush=True)
+
+            iterations += 1
             if pointer >= len(self.projects):
                 break
 

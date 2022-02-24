@@ -51,6 +51,7 @@ class Engine:
                     remainingSkills.append((tup[0], tup[1], index))
                     index += 1
 
+
                 skillMentorLevels = {}
 
                 while remainingSkills:

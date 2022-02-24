@@ -10,13 +10,13 @@ def main():
     if len(sys.argv) > 1 and sys.argv[1] != "-a":
         execute_file(sys.argv[1], sys.argv[2], sys.argv[3])
     else:
-        execute_file("in/a_an_example.in.txt")
+        # execute_file("in/a_an_example.in.txt")
         
         # print("="*80,end=os.linesep)
         # execute_file("in/b_better_start_small.in.txt")
         
         # print("="*80,end=os.linesep)
-        # execute_file("in/c_collaboration.in.txt")
+        execute_file("in/c_collaboration.in.txt")
         
         # print("="*80,end=os.linesep)
         # execute_file("in/d_dense_schedule.in.txt")

@@ -45,16 +45,12 @@ class Writer:
     def calc_score(self):
         score = 0
         for project in self.E.planned_projects:
+            days_late = project.before - project.completion_date
+
             if project.completion_date <= project.before:
                 score += project.score
-            elif project.completion_date <= project.before + project.score:
-                score += project.score - (project.completion_date - project.before)
-            else:
-                print("I thought I completed project", project, "but it is", project.completion_date-project.before,"days late, with max margin of", project.score)
-            # if days_late >= 0:
-            #     score += project.score
-            # elif days_late < project.score:
-            #     score += project.score - days_late
+            elif days_late < project.score:
+                score += max(0, project.score + days_late)
         return score
 
 

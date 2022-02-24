@@ -25,11 +25,15 @@ class Engine:
             candidates = []
 
 
-            remainingSkills = [skill for skill in project.skills]
+            remainingSkills = []
+            index = 0
+            for tup in project.skills:
+                remainingSkills.append((tup[0], tup[1], index))
+                index += 1
+
             skillMentorLevels = {}
 
             while remainingSkills:
-                print()
                 personScores = []
 
                 for person in self.persons:
@@ -37,16 +41,20 @@ class Engine:
                         continue
 
                     score = 0
-                    for skill in remainingSkills:
+                    for tup in remainingSkills:
                         # print(skill, project.skills[skill], person.skills, skill in person.skills)
+                        skill = tup[0]
+                        level = tup[1]
+                        skillIndex = tup[2]
+
                         if skill in person.skills:
-                            if project.skills[skill] < person.skills[skill]:
+                            if level < person.skills[skill]:
                                 score += 1
                             # Learning yourself
-                            elif project.skills[skill] == person.skills[skill]:
+                            elif level == person.skills[skill]:
                                 score += 2
                             # Learning by being mentored
-                            elif project.skills[skill] - 1 == person.skills[skill] and skill in skillMentorLevels and skillMentorLevels[skill] >= project.skills[skill]:
+                            elif level - 1 == person.skills[skill] and skill in skillMentorLevels and skillMentorLevels[skill] >= level:
                                 score += 2.5
 
                     # TODO Correction: maximum possible score remaining instead of project score
@@ -68,20 +76,26 @@ class Engine:
 
                 bestPerson = heapq.heappop(personScores)[1]
                 bestSkill = None
+                bestSkillIndex = -1
 
                 # print("PRSN",bestPerson.skills)
                 # print("PROJ",project.skills)
                 # print("REMAINING",remainingSkills)
-                for skill in sorted(remainingSkills, key=lambda skill: project.skills[skill], reverse=True):
+                for tup in sorted(remainingSkills, key=lambda tup: tup[1], reverse=True):
+                    skill = tup[0]
+                    level = tup[1]
+                    skillIndex = tup[2]
+
                     # print(skill, skill in bestPerson.skills)
                     if skill not in bestPerson.skills:
                         continue
 
-                    qualified = (project.skills[skill] <= bestPerson.skills[skill])
-                    mentored = (project.skills[skill] - 1 == bestPerson.skills[skill] and skill in skillMentorLevels and skillMentorLevels[skill] >= project.skills[skill])
+                    qualified = (level <= bestPerson.skills[skill])
+                    mentored = (level - 1 == bestPerson.skills[skill] and skill in skillMentorLevels and skillMentorLevels[skill] >= level)
                     # print(skill, qualified, mentored)
                     if qualified or mentored:
                         bestSkill = skill
+                        bestSkillIndex = skillIndex
                         break
 
                 for skill in bestPerson.skills:
@@ -91,24 +105,32 @@ class Engine:
 
                     skillMentorLevels[skill] = max(skillLevel, bestPerson.skills[skill])
 
-                remainingSkills.remove(bestSkill)
-                candidates.append((bestPerson, bestSkill))
+                index = 0
+                for tup in remainingSkills:
+                    if bestSkillIndex == tup[2]:
+                        del remainingSkills[index]
+                        break
+                    index += 1
+
+                candidates.append((bestPerson, bestSkill, bestSkillIndex))
 
             if not remainingSkills:
                 maxCompletionTime = 0
                 for tup in candidates:
                     person = tup[0]
                     skill = tup[1]
+                    skillIndex = tup[2]
 
                     person.time += project.duration
                     maxCompletionTime = max(maxCompletionTime, person.time)
                     # project.complete = True
                     # TODO inequality performance fix
-                    if person.skills[skill] == project.skills[skill] - 1 or person.skills[skill] == project.skills[skill]:
+                    if person.skills[skill] == project.skills[skillIndex][1] - 1 or person.skills[skill] == project.skills[skillIndex][1]:
                         person.skills[skill] += 1
 
-                    project.persons.append((person, skill))
-                    
+                    project.persons[skillIndex] = person
+
+                # project.persons = sorted(project.persons, key=lambda tup: tup[1])
                 self.planned_projects.append(project)
 
                 project.completion_date = maxCompletionTime

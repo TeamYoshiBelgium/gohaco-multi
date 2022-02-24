@@ -76,18 +76,16 @@ class Loader:
             before = int(line[3])
             roleCount = int(line[4])
 
-            skills = {}
+            globalSkillOrder = []
             for j in range(roleCount):
                 line2 = read_array(file)
+                
                 skillName = line2[0]
                 level = int(line2[1])
 
-                if skillName in skills:
-                    raise "Duplicate skill"
+                globalSkillOrder.append((skillName,level))
 
-                skills[skillName] = level
-
-            project = Project(name, days, score, before, skills)
+            project = Project(name, days, score, before, globalSkillOrder)
 
             self.projects.append(project)
 

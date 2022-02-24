@@ -9,7 +9,7 @@ class Project:
 
         self.complexity = self.get_complexity()
         self.order = self.get_order()
-        self.persons = []
+        self.persons = [ None ] * len(self.skills)
 
 
     def __str__(self):
@@ -20,8 +20,8 @@ class Project:
 
     def get_complexity(self):
         complexity = 0
-        for key in self.skills:
-            complexity += self.skills[key]
+        for tup in self.skills:
+            complexity += tup[1]
 
         return complexity
 

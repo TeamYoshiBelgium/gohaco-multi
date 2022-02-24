@@ -9,6 +9,7 @@ class Project:
 
         self.complexity = self.get_complexity()
         self.order = self.get_order()
+        self.persons = []
 
 
     def __str__(self):

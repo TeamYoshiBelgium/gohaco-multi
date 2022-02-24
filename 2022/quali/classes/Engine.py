@@ -8,6 +8,8 @@ class Engine:
         self.projectCount = len(projects)
         self.personCount = len(persons)
 
+        self.planned_projects = []
+
 
     def optimize(self):
         projects = sorted(self.projects,key= lambda x : x.order, reverse=False)
@@ -103,6 +105,8 @@ class Engine:
 
                     project.persons.append((person, skill))
                     self.planned_projects.append(project)
+
+                project.completion_date = maxCompletionTime
 
         print("GREEDY")
 

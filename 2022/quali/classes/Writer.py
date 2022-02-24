@@ -12,9 +12,10 @@ class Writer:
         self.E = E
 
     def write(self):
-        score = 0
+        score = self.calc_score()
 
-        score = calc_score()
+        if score == 0:
+            return
 
         # in/a.txt
         # out/a.0000001411102.v0.1[0.5__1.3__9.2].out
@@ -30,20 +31,23 @@ class Writer:
         self.print_footer(score, outFile)
 
         with open(outFile, 'w+') as file:
-            file.write(str(len(self.E.O.planned_projects)))
+            file.write(str(len(self.E.planned_projects)))
             file.write("\n")
-            for project in self.E.O.planned_projects:
+            for project in self.E.planned_projects:
                 file.write(project.name)
                 file.write("\n")
-                for people in project.peoples:
-                    file.write(people.name)
-                    file.write(" ")
+                for skill in project.skills:
+                    for value in project.persons:
+                        if value[1] == skill:
+                            file.write(value[0]) # person.name
+                            file.write(" ")
+                            break
                 file.write("\n")
             pass
             
     def calc_score(self):
         score = 0
-        for project in self.E.O.planned_projects:
+        for project in self.E.planned_projects:
             days_late = project.before - project.completion_date
             if days_late >= 0:
                 score += project.score

@@ -165,6 +165,8 @@ class Engine:
                     score = timePenalty + complexityPenalty
 
                     heapq.heappush(candidateProjects, (score, project, candidates))
+                    if len(candidateProjects) > self.heuristic[0]:
+                        break
                     # maxCompletionTime = 0
                     # for tup in candidates:
                     #     person = tup[0]
@@ -193,8 +195,20 @@ class Engine:
             if not candidateProjects:
                 break
             else:
+                # print(projects)
+                # print(candidateProjects)
+                candidateSet = set(map(lambda tup: tup[1], candidateProjects))
+                newProjects = [project for project in candidateSet]
+                for project in projects:
+                    if project not in candidateSet:
+                        newProjects.append(project)
+
+                projects = newProjects
+
+
+                # print(projects)
                 bestProject = heapq.heappop(candidateProjects)
-                print(bestProject)
+                # print(bestProject)
 
                 candidates = bestProject[2]
                 project = bestProject[1]

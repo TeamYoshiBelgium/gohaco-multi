@@ -11,10 +11,10 @@ class Settings:
     width = 80
 
     heuristics = {
-        "a_an_example.in": (0.5, 0.5),
-        "b_better_start_small.in": (0.5, 0.5),
-        "c_collaboration.in": (0.5, 0.5),
-        "d_dense_schedule.in": (0.5, 0.5),
-        "e_exceptional_skills.in": (0.5, 0.5),
-        "f_find_great_mentors.in": (0.5, 0.5),
+        "a_an_example.in": (100, 20),
+        "b_better_start_small.in": (100, 20),
+        "c_collaboration.in": (4, 20),
+        "d_dense_schedule.in": (3, 20),
+        "e_exceptional_skills.in": (1, 20),
+        "f_find_great_mentors.in": (1, 20),
     }

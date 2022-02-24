@@ -39,7 +39,7 @@ class Writer:
                 for skill in project.skills:
                     for value in project.persons:
                         if value[1] == skill:
-                            file.write(value[0]) # person.name
+                            file.write(value[0].name)
                             file.write(" ")
                             break
                 file.write("\n")

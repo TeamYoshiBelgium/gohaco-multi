@@ -1,4 +1,5 @@
 import heapq
+import random
 
 class Engine:
     def __init__(self, heuristic, projects, persons):
@@ -13,205 +14,178 @@ class Engine:
 
     def optimize(self):
         projects = sorted(self.projects,key= lambda x : x.order, reverse=False)
+        # projects = [project for project in self.projects]
+        # random.shuffle(projects)
 
         finishedProjects = set()
 
         pointer = 0
         iterations = 0
 
+        prevLen = len(projects)
+        J = 0
         while True:
+            if not J%1000:
+                print(len(finishedProjects), "/", len(self.projects), iterations, flush=True)
 
-            if iterations%10 == 0:
-                print(len(finishedProjects), "/", len(self.projects), " (", pointer, ")", flush=True)
+            J += 1
 
-            iterations += 1
+            # if iterations%10 == 0:
+            #     print(len(finishedProjects), "/", len(self.projects), " (", pointer, ")", flush=True)
+            if prevLen == len(projects):
+                iterations += 1
+            prevLen = len(projects)
+
+            if iterations > len(self.projects):
+                break
+
+
 
             candidateProjects = []
 
-            for project in projects:
-                # if pointer >= len(self.projects):
-                #     break
+            project = projects[0]
+            projects = projects[1:]
+
+            # for project in projects:
+            # if pointer >= len(self.projects):
+            #     break
 
 
 
-                # print(len(projects))
+            # print(len(projects))
 
-                # project = projects[pointer]
-                if project in finishedProjects:
-                    pointer += 1
-                    continue
+            # project = projects[pointer]
+            if project in finishedProjects:
+                pointer += 1
+                continue
 
-                # for skill in project.skills:
-                candidates = []
-                usedPersons = set()
+            # for skill in project.skills:
+            candidates = []
+            usedPersons = set()
 
-                remainingSkills = []
-                index = 0
-                for tup in project.skills:
-                    remainingSkills.append((tup[0], tup[1], index))
-                    index += 1
+            remainingSkills = []
+            index = 0
+            for tup in project.skills:
+                remainingSkills.append((tup[0], tup[1], index))
+                index += 1
 
 
-                skillMentorLevels = {}
+            skillMentorLevels = {}
 
-                while remainingSkills:
-                    personScores = []
+            while remainingSkills:
+                personScores = []
 
-                    for person in self.persons:
-                        if person in usedPersons:
-                            continue
+                for person in self.persons:
+                    if person in usedPersons:
+                        continue
 
-                        if (person.time + project.duration) > project.before + project.score:
-                            continue
+                    if (person.time + project.duration) > project.before:# + project.score:
+                        continue
 
-                        score = 0
-                        for tup in remainingSkills:
-                            # print(skill, project.skills[skill], person.skills, skill in person.skills)
-                            skill = tup[0]
-                            level = tup[1]
-                            skillIndex = tup[2]
-
-                            if skill in person.skills:
-                                if level < person.skills[skill]:
-                                    score += 1
-                                # Learning yourself
-                                elif level == person.skills[skill]:
-                                    score += 2
-                                # Learning by being mentored
-                                elif level - 1 == person.skills[skill] and skill in skillMentorLevels and skillMentorLevels[skill] >= level:
-                                    score += 2.5
-
-                        # TODO Correction: maximum possible score remaining instead of project score
-                        timeFactor = (project.score - min(0, project.before - (person.time + project.duration)))/project.score
-
-                        if score == 0:
-                            continue
-
-                        heapq.heappush(personScores, (-score * timeFactor, person))
-
-                    # We cannot complete this project at this time
-                    # print(project)
-                    if not personScores:
-                        # print("CANNOT COMPLETE PROJECT")
-                        # TODO: re-add, but find termination conditions?
-                        # projects.append(project)
-                        pointer += 1
-                        break
-
-                    # print(personScores)
-
-                    bestPerson = heapq.heappop(personScores)[1]
-                    bestSkill = None
-                    bestSkillIndex = -1
-
-                    # print("PRSN",bestPerson.skills)
-                    # print("PROJ",project.skills)
-                    # print("REMAINING",remainingSkills)
-                    for tup in sorted(remainingSkills, key=lambda tup: tup[1], reverse=True):
+                    score = 0
+                    for tup in remainingSkills:
+                        # print(skill, project.skills[skill], person.skills, skill in person.skills)
                         skill = tup[0]
                         level = tup[1]
                         skillIndex = tup[2]
 
-                        # print(skill, skill in bestPerson.skills)
-                        if skill not in bestPerson.skills:
-                            continue
+                        if skill in person.skills:
+                            if level < person.skills[skill]:
+                                score += 1 #level/person.skills[skill]
+                            # Learning yourself
+                            elif level == person.skills[skill]:
+                                score += 2
+                            # Learning by being mentored
+                            elif level - 1 == person.skills[skill] and skill in skillMentorLevels and skillMentorLevels[skill] >= level:
+                                score += 2.5
 
-                        qualified = (level <= bestPerson.skills[skill])
-                        mentored = (level - 1 == bestPerson.skills[skill] and skill in skillMentorLevels and skillMentorLevels[skill] >= level)
-                        # print(skill, qualified, mentored)
-                        if qualified or mentored:
-                            bestSkill = skill
-                            bestSkillIndex = skillIndex
-                            break
+                    # TODO Correction: maximum possible score remaining instead of project score
+                    timeFactor = (project.score - min(0, project.before - (person.time + project.duration)))/project.score
 
-                    for skill in bestPerson.skills:
-                        skillLevel = 0
-                        if skill in skillMentorLevels:
-                            skillLevel = skillMentorLevels[skill]
-
-                        skillMentorLevels[skill] = max(skillLevel, bestPerson.skills[skill])
-
-                    index = 0
-                    for tup in remainingSkills:
-                        if bestSkillIndex == tup[2]:
-                            del remainingSkills[index]
-                            break
-                        index += 1
-
-                    candidates.append((bestPerson, bestSkill, bestSkillIndex))
-                    usedPersons.add(bestPerson)
-
-                if not remainingSkills:
-
-                    maxCompletionTime = 0
-                    for tup in candidates:
-                        person = tup[0]
-                        skill = tup[1]
-                        skillIndex = tup[2]
-
-                        maxCompletionTime = max(maxCompletionTime, person.time+project.duration)
-
-                    if maxCompletionTime > project.before + project.score:
+                    if score == 0:
                         continue
 
-                    timePenalty = 0
-                    if maxCompletionTime < project.before:
-                        timePenalty = (project.before - maxCompletionTime)/project.before
-                    elif maxCompletionTime > project.before:
-                        timePenalty = (maxCompletionTime - project.before)/project.score
+                    heapq.heappush(personScores, (-score * timeFactor, person))
 
-                    complexityPenalty = 1-1/project.complexity
+                # We cannot complete this project at this time
+                # print(project)
+                if not personScores:
+                    # print("CANNOT COMPLETE PROJECT")
+                    # TODO: re-add, but find termination conditions?
+                    # projects.append(project)
+                    pointer += 1
+                    break
 
-                    score = timePenalty + complexityPenalty
+                # print(personScores)
 
-                    heapq.heappush(candidateProjects, (score, project, candidates))
-                    if len(candidateProjects) > self.heuristic[0]:
+                bestPerson = heapq.heappop(personScores)[1]
+                bestSkill = None
+                bestSkillIndex = -1
+
+                # print("PRSN",bestPerson.skills)
+                # print("PROJ",project.skills)
+                # print("REMAINING",remainingSkills)
+                for tup in sorted(remainingSkills, key=lambda tup: tup[1], reverse=True):
+                    skill = tup[0]
+                    level = tup[1]
+                    skillIndex = tup[2]
+
+                    # print(skill, skill in bestPerson.skills)
+                    if skill not in bestPerson.skills:
+                        continue
+
+                    qualified = (level <= bestPerson.skills[skill])
+                    mentored = (level - 1 == bestPerson.skills[skill] and skill in skillMentorLevels and skillMentorLevels[skill] >= level)
+                    # print(skill, qualified, mentored)
+                    if qualified or mentored:
+                        bestSkill = skill
+                        bestSkillIndex = skillIndex
                         break
-                    # maxCompletionTime = 0
-                    # for tup in candidates:
-                    #     person = tup[0]
-                    #     skill = tup[1]
-                    #     skillIndex = tup[2]
 
-                    #     person.time += project.duration
-                    #     maxCompletionTime = max(maxCompletionTime, person.time)
-                    #     # project.complete = True
-                    #     # TODO inequality performance fix
-                    #     if person.skills[skill] == project.skills[skillIndex][1] - 1 or person.skills[skill] == project.skills[skillIndex][1]:
-                    #         person.skills[skill] += 1
+                for skill in bestPerson.skills:
+                    skillLevel = 0
+                    if skill in skillMentorLevels:
+                        skillLevel = skillMentorLevels[skill]
 
-                    #     project.persons[skillIndex] = person
+                    skillMentorLevels[skill] = max(skillLevel, bestPerson.skills[skill])
 
-                    # for tup in candidates:
-                    #     person.time = maxCompletionTime
+                index = 0
+                for tup in remainingSkills:
+                    if bestSkillIndex == tup[2]:
+                        del remainingSkills[index]
+                        break
+                    index += 1
 
-                    # # project.persons = sorted(project.persons, key=lambda tup: tup[1])
-                    # self.planned_projects.append(project)
-                    # finishedProjects.add(project)
+                candidates.append((bestPerson, bestSkill, bestSkillIndex))
+                usedPersons.add(bestPerson)
 
-                    # project.completion_date = maxCompletionTime
-                    # pointer = 0
+            if not remainingSkills:
 
-            if not candidateProjects:
-                break
-            else:
-                # print(projects)
-                # print(candidateProjects)
-                candidateSet = set(map(lambda tup: tup[1], candidateProjects))
-                newProjects = [project for project in candidateSet]
-                for project in projects:
-                    if project not in candidateSet:
-                        newProjects.append(project)
+                # maxCompletionTime = 0
+                # for tup in candidates:
+                #     person = tup[0]
+                #     skill = tup[1]
+                #     skillIndex = tup[2]
 
-                projects = newProjects
+                #     maxCompletionTime = max(maxCompletionTime, person.time+project.duration)
 
+                # if maxCompletionTime > project.before + project.score:
+                #     continue
 
-                # print(projects)
-                bestProject = heapq.heappop(candidateProjects)
-                # print(bestProject)
+                # # timePenalty = 0
+                # # if maxCompletionTime < project.before:
+                # #     timePenalty = (project.before - maxCompletionTime)/project.before
+                # # elif maxCompletionTime > project.before:
+                # #     timePenalty = (maxCompletionTime - project.before)/project.score
 
-                candidates = bestProject[2]
-                project = bestProject[1]
+                # # complexityPenalty = 1-1/project.complexity
+
+                # # score = timePenalty + complexityPenalty
+
+                # # # heapq.heappush(candidateProjects, (score, project, candidates))
+                # # # if len(candidateProjects) > self.heuristic[0]:
+                # # #     break
+
 
                 maxCompletionTime = 0
                 for tup in candidates:
@@ -236,6 +210,53 @@ class Engine:
                 finishedProjects.add(project)
 
                 project.completion_date = maxCompletionTime
+                iterations = 0
+            else:
+                projects.append(project)
+        # if not candidateProjects:
+        #     break
+        # else:
+        #     # print(projects)
+        #     # print(candidateProjects)
+        #     candidateSet = set(map(lambda tup: tup[1], candidateProjects))
+        #     newProjects = [project for project in candidateSet]
+        #     for project in projects:
+        #         if project not in candidateSet:
+        #             newProjects.append(project)
+
+        #     projects = newProjects
+
+
+        #     # print(projects)
+        #     bestProject = heapq.heappop(candidateProjects)
+        #     # print(bestProject)
+
+        #     candidates = bestProject[2]
+        #     project = bestProject[1]
+
+        #     maxCompletionTime = 0
+        #     for tup in candidates:
+        #         person = tup[0]
+        #         skill = tup[1]
+        #         skillIndex = tup[2]
+
+        #         person.time += project.duration
+        #         maxCompletionTime = max(maxCompletionTime, person.time)
+        #         # project.complete = True
+        #         # TODO inequality performance fix
+        #         if person.skills[skill] == project.skills[skillIndex][1] - 1 or person.skills[skill] == project.skills[skillIndex][1]:
+        #             person.skills[skill] += 1
+
+        #         project.persons[skillIndex] = person
+
+        #     for tup in candidates:
+        #         person.time = maxCompletionTime
+
+        #     # project.persons = sorted(project.persons, key=lambda tup: tup[1])
+        #     self.planned_projects.append(project)
+        #     finishedProjects.add(project)
+
+        #     project.completion_date = maxCompletionTime
 
     def improve(self):
         print("IMPROVE")

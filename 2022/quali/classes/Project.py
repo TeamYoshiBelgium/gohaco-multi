@@ -26,4 +26,4 @@ class Project:
         return complexity
 
     def get_order(self):
-        return self.duration + (1 - (1 / self.complexity))
+        return self.duration + (1 - (1 / self.complexity))/self.score

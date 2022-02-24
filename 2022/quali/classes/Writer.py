@@ -30,8 +30,14 @@ class Writer:
         self.print_footer(score, outFile)
 
         with open(outFile, 'w+') as file:
-            # file.write(str(len(self.E.O.intersections)))
-            # file.write("\n")
+            file.write(str(len(self.E.O.planned_projects)))
+            file.write("\n")
+            for project in self.E.O.planned_projects:
+                file.write(project.name)
+                file.write("\n")
+                for people in project.peoples:
+                    file.write(people.name)
+                    file.write("\n")
             pass
             
 

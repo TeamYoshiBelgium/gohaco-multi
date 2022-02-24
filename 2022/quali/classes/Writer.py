@@ -14,7 +14,7 @@ class Writer:
     def write(self):
         score = 0
 
-        # score = calc_score()
+        score = calc_score()
 
         # in/a.txt
         # out/a.0000001411102.v0.1[0.5__1.3__9.2].out
@@ -37,9 +37,19 @@ class Writer:
                 file.write("\n")
                 for people in project.peoples:
                     file.write(people.name)
-                    file.write("\n")
+                    file.write(" ")
+                file.write("\n")
             pass
             
+    def calc_score(self):
+        score = 0
+        for project in self.E.O.planned_projects:
+            days_late = project.before - project.completion_date
+            if days_late >= 0:
+                score += project.score
+            elif days_late < project.score:
+                score += project.score - days_late
+        return score
 
 
     def print_footer(self, score, outFile):

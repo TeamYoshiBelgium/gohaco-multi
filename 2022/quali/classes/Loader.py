@@ -47,7 +47,6 @@ class Loader:
             # read rest of file, read_array, read_int_array and stuff
 
     def read_persons(self, file):
-
         for i in range(self.personCount):
             line = read_array(file)
             name = line[0]
@@ -69,7 +68,28 @@ class Loader:
 
 
     def read_projects(self, file):
-        pass
+        for i in range(self.projectCount):
+            line = read_array(file)
+            name = line[0]
+            days = int(line[1])
+            score = int(line[2])
+            before = int(line[3])
+            roleCount = int(line[4])
+
+            skills = {}
+            for j in range(roleCount):
+                line2 = read_array(file)
+                skillName = line2[0]
+                level = int(line2[1])
+
+                if skillName in skills:
+                    raise "Duplicate skill"
+
+                skills[skillName] = level
+
+            project = Project(name, days, score, before, skills):
+            
+            self.projects.append(project)
 
     def get_heuristic(self):
         realFile = get_filename_no_extension(self.filename)

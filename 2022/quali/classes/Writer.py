@@ -49,7 +49,7 @@ class Writer:
             if days_late >= 0:
                 score += project.score
             elif days_late < project.score:
-                score += project.score - days_late
+                score += max(0, project.score + days_late)
         return score
 
 

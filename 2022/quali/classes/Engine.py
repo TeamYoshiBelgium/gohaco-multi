@@ -194,7 +194,7 @@ class Engine:
                 break
             else:
                 bestProject = heapq.heappop(candidateProjects)
-                print(bestProject)
+                # print(bestProject)
 
                 candidates = bestProject[2]
                 project = bestProject[1]

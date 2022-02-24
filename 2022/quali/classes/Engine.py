@@ -52,7 +52,7 @@ class Engine:
                     if person in usedPersons:
                         continue
 
-                    if (person.time + project.duration) > project.before:
+                    if (person.time + project.duration) > project.before + project.score:
                         continue
 
                     score = 0

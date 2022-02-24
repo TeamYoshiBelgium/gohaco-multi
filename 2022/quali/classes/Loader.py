@@ -31,8 +31,8 @@ class Loader:
             # Usually first line is a parameter line
             self.params = read_int_array(file)
 
-            self.personCount = params[0]
-            self.projectCount = params[1]
+            self.personCount = self.params[0]
+            self.projectCount = self.params[1]
 
             self.persons = []
             self.read_persons(file)

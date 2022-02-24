@@ -8,13 +8,13 @@ class Settings:
     version = "1"
 
     # Used for print padding
-    width = 60
+    width = 80
 
     heuristics = {
-        "a": (0.5, 0.5),
-        "b": (0.5, 0.5),
-        "c": (0.5, 0.5),
-        "d": (0.5, 0.5),
-        "e": (0.5, 0.5),
-        "f": (0.5, 0.5),
+        "a_an_example.in": (0.5, 0.5),
+        "b_better_start_small.in": (0.5, 0.5),
+        "c_collaboration.in": (0.5, 0.5),
+        "d_dense_schedule.in": (0.5, 0.5),
+        "e_exceptional_skills.in": (0.5, 0.5),
+        "f_find_great_mentors.in": (0.5, 0.5),
     }

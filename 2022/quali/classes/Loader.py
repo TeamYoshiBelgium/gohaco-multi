@@ -27,8 +27,6 @@ class Loader:
         self.filename = filename
         self.heuristic = self.get_heuristic()
 
-        self.engine = Engine(self.heuristic)
-
         with open(filename) as file:
             # Usually first line is a parameter line
             self.params = read_int_array(file)
@@ -41,6 +39,8 @@ class Loader:
 
             self.projects = []
             self.read_projects(file)
+
+            self.engine = Engine(self.heuristic, self.projects, self.persons)
 
             self.print_header()
 
@@ -87,8 +87,8 @@ class Loader:
 
                 skills[skillName] = level
 
-            project = Project(name, days, score, before, skills):
-            
+            project = Project(name, days, score, before, skills)
+
             self.projects.append(project)
 
     def get_heuristic(self):

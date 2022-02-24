@@ -3,6 +3,9 @@ class Engine:
         self.heuristic = heuristic
         self.projects = projects
         self.persons = persons
+        self.projectCount = len(projects)
+        self.personCount = len(persons)
+
 
     def optimize(self):
         projects = sorted(self.projects,key= lambda x : x.order, reverse=False)

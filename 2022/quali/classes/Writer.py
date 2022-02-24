@@ -36,12 +36,9 @@ class Writer:
             for project in self.E.planned_projects:
                 file.write(project.name)
                 file.write("\n")
-                for skill in project.skills:
-                    for value in project.persons:
-                        if value[1] == skill:
-                            file.write(value[0].name)
-                            file.write(" ")
-                            break
+                for person in project.persons:
+                    file.write(person.name)
+                    file.write(" ")
                 file.write("\n")
             pass
             

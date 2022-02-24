@@ -1,11 +1,11 @@
 class Project:
 
-    def __init__(self, name, duration, score, before, roles):
+    def __init__(self, name, duration, score, before, skills):
         self.name = name
         self.duration = duration
         self.score = score
         self.before = before
-        self.roles = roles
+        self.skills = skills
 
         self.complexity = self.get_complexity()
         self.order = self.get_order()
